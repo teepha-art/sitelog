@@ -1,0 +1,72 @@
+/* Uses similar structure to Input */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.label {
+  font-family: var(--font-label-medium-font-family);
+  font-weight: var(--font-label-medium-font-weight);
+  font-size: var(--font-label-medium-font-size);
+  line-height: var(--font-label-medium-line-height);
+  letter-spacing: var(--font-label-medium-letter-spacing);
+  color: var(--color-on-surface);
+}
+
+.selectWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select {
+  width: 100%;
+  min-height: 44px; /* MIN_TAP_TARGET_PX */
+  padding: 0 40px 0 16px; /* Right padding for chevron */
+  border-radius: 8px;
+  border: 1px solid var(--color-outline);
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  font-family: var(--font-body-large-font-family);
+  font-size: var(--font-body-large-font-size);
+  appearance: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-container);
+}
+
+.select:disabled {
+  background-color: var(--color-surface-variant);
+  color: var(--color-on-surface-variant);
+  cursor: not-allowed;
+}
+
+.select.error {
+  border-color: var(--color-error);
+}
+
+.select.error:focus {
+  box-shadow: 0 0 0 2px var(--color-error-container);
+}
+
+.chevron {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--color-on-surface-variant);
+}
+
+.errorText {
+  font-family: var(--font-body-small-font-family);
+  font-size: var(--font-body-small-font-size);
+  color: var(--color-error);
+  margin: 0;
+}

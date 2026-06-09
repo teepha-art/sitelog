@@ -1,0 +1,113 @@
+.container {
+  position: relative;
+}
+
+.bell {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-on-surface-variant);
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.bell:hover {
+  background-color: var(--color-surface-variant);
+  color: var(--color-on-surface);
+}
+
+.badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background-color: var(--color-error);
+  color: var(--color-on-error);
+  font-size: 10px;
+  font-family: var(--font-label-small-font-family);
+  font-weight: bold;
+  height: 16px;
+  min-width: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+.dropdown {
+  position: absolute;
+  top: 48px;
+  right: -8px;
+  width: 320px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  z-index: 50;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.header {
+  padding: 16px;
+  border-bottom: 1px solid var(--color-outline-variant);
+  font-family: var(--font-title-medium-font-family);
+  font-weight: bold;
+  color: var(--color-on-surface);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  padding: 16px;
+  border-bottom: 1px solid var(--color-outline-variant);
+  display: block;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.item:hover {
+  background-color: var(--color-surface-variant);
+}
+
+.unread {
+  background-color: var(--color-primary-container);
+}
+
+.title {
+  font-family: var(--font-title-small-font-family);
+  font-weight: bold;
+  color: var(--color-on-surface);
+  margin-bottom: 4px;
+}
+
+.message {
+  font-family: var(--font-body-small-font-family);
+  font-size: var(--font-body-small-font-size);
+  color: var(--color-on-surface-variant);
+  margin-bottom: 8px;
+}
+
+.time {
+  font-family: var(--font-body-small-font-family);
+  font-size: 11px;
+  color: var(--color-outline);
+}
+
+.empty {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--color-on-surface-variant);
+  font-family: var(--font-body-medium-font-family);
+}

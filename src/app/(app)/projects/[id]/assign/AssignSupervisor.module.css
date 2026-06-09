@@ -1,0 +1,76 @@
+.card {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.title {
+  margin-bottom: 24px;
+  font-family: var(--font-title-large-font-family);
+  font-size: var(--font-title-large-font-size);
+}
+
+.alert {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.alertError {
+  background-color: var(--color-error-container);
+  color: var(--color-on-error-container);
+}
+
+.alertSuccess {
+  background-color: var(--color-success-container);
+  color: var(--color-on-success);
+}
+
+.doneRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.searchForm {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.searchField {
+  flex: 1;
+}
+
+.searchButton {
+  align-self: flex-end;
+}
+
+.noResults {
+  color: var(--color-on-surface-variant);
+  text-align: center;
+  padding: 24px 0;
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.resultItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 8px;
+}
+
+.resultName {
+  font-weight: bold;
+}
+
+.resultEmail {
+  color: var(--color-on-surface-variant);
+  font-size: var(--font-body-small-font-size);
+}

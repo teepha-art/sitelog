@@ -1,0 +1,41 @@
+.activityCard {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-surface);
+  border-radius: 12px;
+  border: 1px solid var(--color-outline-variant);
+  padding: 24px;
+}
+
+.activityItem {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.activityItem:not(:last-child) {
+  border-bottom: 1px solid var(--color-outline-variant);
+}
+
+.activityItemHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.activityItemTitle {
+  font-family: var(--font-title-small-font-family);
+  font-weight: bold;
+  color: var(--color-on-surface);
+}
+
+.activityItemDate {
+  font-size: var(--font-body-small-font-size);
+  color: var(--color-on-surface-variant);
+}
+
+.activityItemDesc {
+  color: var(--color-on-surface-variant);
+}

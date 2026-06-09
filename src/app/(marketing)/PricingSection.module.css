@@ -1,0 +1,172 @@
+.pricing {
+  padding: 80px 0;
+  background-color: var(--color-surface);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.title {
+  font-family: var(--font-display-small-font-family);
+  font-size: var(--font-display-small-font-size);
+  color: var(--color-on-surface);
+  margin-bottom: 16px;
+}
+
+.subtitle {
+  font-family: var(--font-body-large-font-family);
+  font-size: var(--font-body-large-font-size);
+  color: var(--color-on-surface-variant);
+  max-width: 600px;
+  margin: 0 auto 32px;
+}
+
+.toggle {
+  display: inline-flex;
+  background-color: var(--color-surface-variant);
+  border-radius: 8px;
+  padding: 4px;
+  margin: 0 auto;
+}
+
+.toggleBtn {
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  font-family: var(--font-label-large-font-family);
+  font-size: var(--font-label-large-font-size);
+  color: var(--color-on-surface-variant);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.toggleBtn.active {
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 16px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+}
+
+.cardPopular {
+  border: 2px solid var(--color-primary);
+  position: relative;
+}
+
+.popularBadge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-family: var(--font-label-small-font-family);
+  font-size: var(--font-label-small-font-size);
+  font-weight: bold;
+}
+
+.planName {
+  font-family: var(--font-title-large-font-family);
+  font-size: var(--font-title-large-font-size);
+  font-weight: bold;
+  color: var(--color-on-surface);
+  margin-bottom: 8px;
+}
+
+.planDesc {
+  color: var(--color-on-surface-variant);
+  font-size: var(--font-body-medium-font-size);
+  margin-bottom: 24px;
+  min-height: 48px;
+}
+
+.price {
+  font-family: var(--font-display-small-font-family);
+  font-size: var(--font-display-small-font-size);
+  font-weight: bold;
+  color: var(--color-on-surface);
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 24px;
+}
+
+.period {
+  font-family: var(--font-body-medium-font-family);
+  font-size: var(--font-body-medium-font-size);
+  color: var(--color-on-surface-variant);
+  font-weight: normal;
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px 0;
+  flex: 1;
+}
+
+.feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+  color: var(--color-on-surface);
+}
+
+.check {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.tierToggle {
+  display: inline-flex;
+  background-color: var(--color-surface-variant);
+  border-radius: 6px;
+  padding: 3px;
+  margin-bottom: 20px;
+  gap: 2px;
+}
+
+.tierBtn {
+  background: none;
+  border: none;
+  padding: 6px 14px;
+  font-family: var(--font-label-medium-font-family);
+  font-size: var(--font-label-medium-font-size);
+  color: var(--color-on-surface-variant);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tierActive {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}

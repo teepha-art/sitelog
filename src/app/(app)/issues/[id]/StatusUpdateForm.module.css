@@ -1,0 +1,10 @@
+.form {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+.selectWrapper {
+  flex: 1;
+  max-width: 300px;
+}

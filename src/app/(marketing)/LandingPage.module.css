@@ -1,0 +1,230 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-background);
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0;
+}
+
+.headerLogoLink {
+  display: block;
+  height: 36px;
+  line-height: 0;
+}
+
+.headerLogo {
+  height: 36px;
+  width: auto;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.loginLink {
+  font-family: var(--font-label-large-font-family);
+  font-weight: var(--font-label-large-font-weight);
+  color: var(--color-on-surface);
+}
+
+.loginLink:hover {
+  color: var(--color-primary);
+}
+
+/* Hero Section */
+.hero {
+  padding: 80px 0 64px;
+  text-align: center;
+}
+
+.heroTitle {
+  font-family: var(--font-display-medium-font-family);
+  font-size: var(--font-display-medium-font-size);
+  line-height: var(--font-display-medium-line-height);
+  font-weight: 700;
+  color: var(--color-on-surface);
+  margin-bottom: 24px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.heroSubtitle {
+  font-family: var(--font-body-large-font-family);
+  font-size: var(--font-body-large-font-size);
+  color: var(--color-on-surface-variant);
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.heroVisual {
+  margin-top: 64px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-outline-variant);
+  background-color: var(--color-surface);
+  aspect-ratio: 16/9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Problem Section */
+.section {
+  padding: 80px 0;
+}
+
+.sectionAlt {
+  background-color: var(--color-surface-container);
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.sectionTitle {
+  font-family: var(--font-headline-large-font-family);
+  font-size: var(--font-headline-large-font-size);
+  color: var(--color-on-surface);
+  margin-bottom: 16px;
+}
+
+.sectionSubtitle {
+  font-family: var(--font-body-large-font-family);
+  color: var(--color-on-surface-variant);
+}
+
+.grid3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.problemCard {
+  background-color: var(--color-surface);
+  padding: 32px;
+  border-radius: 12px;
+  border: 1px solid var(--color-outline-variant);
+}
+
+.problemTitle {
+  font-family: var(--font-title-large-font-family);
+  font-size: var(--font-title-large-font-size);
+  color: var(--color-on-surface);
+  margin-bottom: 12px;
+}
+
+/* Solution Section */
+.featureRow {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-bottom: 80px;
+  align-items: center;
+}
+
+.featureRow:last-child {
+  margin-bottom: 0;
+}
+
+.featureContent {
+  flex: 1;
+}
+
+.featureTitle {
+  font-family: var(--font-headline-medium-font-family);
+  font-size: var(--font-headline-medium-font-size);
+  color: var(--color-on-surface);
+  margin-bottom: 16px;
+}
+
+.featureDesc {
+  font-family: var(--font-body-large-font-family);
+  color: var(--color-on-surface-variant);
+}
+
+.featureVisual {
+  flex: 1;
+  width: 100%;
+  aspect-ratio: 4/3;
+  background-color: var(--color-surface-variant);
+  border-radius: 12px;
+}
+
+/* Footer */
+.footer {
+  padding: 48px 0;
+  border-top: 1px solid var(--color-outline-variant);
+  background-color: var(--color-surface);
+  margin-top: auto;
+}
+
+.footerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+}
+
+.copyright {
+  color: var(--color-on-surface-variant);
+  font-family: var(--font-body-small-font-family);
+  font-size: var(--font-body-small-font-size);
+}
+
+.footerLogoLink {
+  display: block;
+  height: 28px;
+  line-height: 0;
+}
+
+.footerLogo {
+  height: 28px;
+  width: auto;
+}
+
+@media (min-width: 768px) {
+  .heroTitle {
+    font-size: var(--font-display-large-font-size);
+    line-height: var(--font-display-large-line-height);
+  }
+  
+  .grid3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .featureRow {
+    flex-direction: row;
+  }
+  
+  .featureRow:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+  
+  .footerContent {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}

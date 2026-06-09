@@ -1,0 +1,64 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.pageTitle {
+  font-family: var(--font-headline-medium-font-family);
+  font-size: var(--font-headline-medium-font-size);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardHeader {
+  margin-bottom: 16px;
+}
+
+.cardTitle {
+  font-family: var(--font-title-large-font-family);
+  font-size: var(--font-title-large-font-size);
+  margin-bottom: 4px;
+}
+
+.cardDate {
+  color: var(--color-on-surface-variant);
+  font-size: var(--font-body-small-font-size);
+}
+
+.cardMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--color-on-surface-variant);
+}
+
+.metaRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.metaIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.truncateText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}

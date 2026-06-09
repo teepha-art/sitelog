@@ -1,0 +1,35 @@
+.section {
+  margin-top: 24px;
+  border-top: 1px solid var(--color-outline-variant);
+  padding-top: 24px;
+}
+
+.sectionTitle {
+  font-family: var(--font-title-medium-font-family);
+  margin-bottom: 16px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--color-outline-variant);
+}
+
+.name {
+  font-weight: bold;
+  font-size: var(--font-body-medium-font-size);
+}
+
+.email {
+  color: var(--color-on-surface-variant);
+  font-size: var(--font-body-small-font-size);
+}

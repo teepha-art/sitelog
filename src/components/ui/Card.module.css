@@ -1,0 +1,22 @@
+.card {
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  border-radius: 12px;
+  border: 1px solid var(--color-outline-variant);
+  overflow: hidden;
+}
+
+.paddingNone { padding: 0; }
+.paddingSm { padding: 12px; }
+.paddingMd { padding: 24px; }
+.paddingLg { padding: 32px; }
+
+.interactive {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-color: var(--color-outline);
+}

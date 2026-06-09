@@ -1,0 +1,40 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: var(--font-label-small-font-family);
+  font-weight: var(--font-label-small-font-weight);
+  font-size: var(--font-label-small-font-size);
+  line-height: var(--font-label-small-line-height);
+  letter-spacing: var(--font-label-small-letter-spacing);
+  white-space: nowrap;
+}
+
+/* Status variants mapped to semantic colors */
+.success {
+  background-color: var(--color-success-container);
+  color: var(--color-on-success);
+}
+
+.warning {
+  background-color: var(--color-warning-container);
+  color: var(--color-on-warning);
+}
+
+.error {
+  background-color: var(--color-error-container);
+  color: var(--color-on-error);
+}
+
+.neutral {
+  background-color: var(--color-surface-variant);
+  color: var(--color-on-surface-variant);
+}
+
+/* Also support subtle outlines */
+.outline {
+  background-color: transparent;
+  border: 1px solid currentColor;
+}

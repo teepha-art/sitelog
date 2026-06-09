@@ -1,0 +1,32 @@
+.wrapper {
+  max-width: 720px;
+}
+
+.alert {
+  padding: 12px;
+  background-color: var(--color-error-container);
+  color: var(--color-on-error-container);
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .form {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.submitSection {
+  margin-top: 16px;
+  grid-column: 1 / -1;
+}

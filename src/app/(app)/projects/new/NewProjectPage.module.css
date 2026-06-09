@@ -1,0 +1,5 @@
+.pageTitle {
+  font-family: var(--font-headline-medium-font-family);
+  font-size: var(--font-headline-medium-font-size);
+  margin-bottom: 24px;
+}

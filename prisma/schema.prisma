@@ -1,0 +1,260 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ───────────────────────────────────────────────
+
+enum Role {
+  project_manager
+  site_supervisor
+}
+
+enum ProjectStatus {
+  active
+  delayed
+  on_hold
+  completed
+}
+
+enum IssueStatus {
+  open
+  in_progress
+  resolved
+}
+
+enum Priority {
+  low
+  medium
+  high
+  critical
+}
+
+enum RequestStatus {
+  pending
+  approved
+  rejected
+  fulfilled
+}
+
+enum EntityType {
+  daily_report
+  issue
+}
+
+enum NotificationType {
+  report_submitted
+  issue_created
+  material_request_submitted
+  assigned_to_project
+  material_request_approved
+  material_request_rejected
+  material_request_fulfilled
+  issue_assigned
+  issue_resolved
+}
+
+// ─── Models ──────────────────────────────────────────────
+
+model User {
+  id              String    @id @default(uuid()) @map("id")
+  fullName        String    @map("full_name")
+  email           String    @unique @map("email")
+  passwordHash    String    @map("password_hash")
+  role            Role      @map("role")
+  profileImageUrl String?   @map("profile_image_url")
+  isActive        Boolean   @default(true) @map("is_active")
+  lastLoginAt     DateTime? @map("last_login_at")
+
+  // Password-reset fields — 6-digit code with 15-minute expiry
+  resetCode          String?   @map("reset_code")
+  resetCodeExpiresAt DateTime? @map("reset_code_expires_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  managedProjects     Project[]           @relation("ProjectManager")
+  createdProjects     Project[]           @relation("ProjectCreator")
+  updatedProjects     Project[]           @relation("ProjectUpdater")
+  memberships         ProjectMembership[]
+  submittedReports    DailyReport[]
+  createdIssues       Issue[]             @relation("IssueCreator")
+  assignedIssues      Issue[]             @relation("IssueAssignee")
+  updatedIssues       Issue[]             @relation("IssueUpdater")
+  requestedMaterials  MaterialRequest[]   @relation("MaterialRequester")
+  approvedRequests    MaterialRequest[]   @relation("MaterialApprover")
+  rejectedRequests    MaterialRequest[]   @relation("MaterialRejecter")
+  uploadedAttachments Attachment[]
+  notifications       Notification[]
+
+  @@map("users")
+}
+
+model Project {
+  id                      String        @id @default(uuid()) @map("id")
+  projectName             String        @map("project_name")
+  projectCode             String        @unique @map("project_code")
+  description             String?       @map("description")
+  location                String        @map("location")
+  status                  ProjectStatus @default(active) @map("status")
+  startDate               DateTime      @map("start_date") @db.Date
+  expectedEndDate         DateTime      @map("expected_end_date") @db.Date
+  assignedProjectManager  String        @map("assigned_project_manager")
+  createdBy               String        @map("created_by")
+  updatedBy               String?       @map("updated_by")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  manager          User                @relation("ProjectManager", fields: [assignedProjectManager], references: [id])
+  creator          User                @relation("ProjectCreator", fields: [createdBy], references: [id])
+  updater          User?               @relation("ProjectUpdater", fields: [updatedBy], references: [id])
+  memberships      ProjectMembership[]
+  dailyReports     DailyReport[]
+  issues           Issue[]
+  materialRequests MaterialRequest[]
+
+  @@map("projects")
+}
+
+model ProjectMembership {
+  id            String   @id @default(uuid()) @map("id")
+  projectId     String   @map("project_id")
+  userId        String   @map("user_id")
+  roleInProject Role     @map("role_in_project")
+  assignedAt    DateTime @default(now()) @map("assigned_at")
+
+  // Relations
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, userId])
+  @@map("project_memberships")
+}
+
+model DailyReport {
+  id                  String   @id @default(uuid()) @map("id")
+  projectId           String   @map("project_id")
+  submittedBy         String   @map("submitted_by")
+  reportDate          DateTime @map("report_date") @db.Date
+  completedWork       String   @map("completed_work")
+  progressPercentage  Int      @map("progress_percentage")
+  delays              String?  @map("delays")
+  weatherCondition    String?  @map("weather_condition")
+  notes               String?  @map("notes")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  submitter   User         @relation(fields: [submittedBy], references: [id])
+  attachments Attachment[] @relation("DailyReportAttachments")
+
+  // One report per supervisor per project per date
+  @@unique([projectId, submittedBy, reportDate])
+  @@index([projectId, reportDate])
+  @@map("daily_reports")
+}
+
+model Issue {
+  id          String      @id @default(uuid()) @map("id")
+  projectId   String      @map("project_id")
+  title       String      @map("title")
+  description String      @map("description")
+  priority    Priority    @map("priority")
+  status      IssueStatus @default(open) @map("status")
+  createdBy   String      @map("created_by")
+  assignedTo  String?     @map("assigned_to")
+  updatedBy   String?     @map("updated_by")
+  resolvedAt  DateTime?   @map("resolved_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  creator     User         @relation("IssueCreator", fields: [createdBy], references: [id])
+  assignee    User?        @relation("IssueAssignee", fields: [assignedTo], references: [id])
+  updater     User?        @relation("IssueUpdater", fields: [updatedBy], references: [id])
+  attachments Attachment[] @relation("IssueAttachments")
+
+  @@index([projectId, status])
+  @@map("issues")
+}
+
+model MaterialRequest {
+  id           String        @id @default(uuid()) @map("id")
+  projectId    String        @map("project_id")
+  requestedBy  String        @map("requested_by")
+  materialName String        @map("material_name")
+  quantity     String        @map("quantity")
+  urgencyLevel Priority      @map("urgency_level")
+  notes        String?       @map("notes")
+  status       RequestStatus @default(pending) @map("status")
+  approvedBy   String?       @map("approved_by")
+  approvedAt   DateTime?     @map("approved_at")
+  rejectedBy   String?       @map("rejected_by")
+  rejectedAt   DateTime?     @map("rejected_at")
+  fulfilledAt  DateTime?     @map("fulfilled_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  requester User    @relation("MaterialRequester", fields: [requestedBy], references: [id])
+  approver  User?   @relation("MaterialApprover", fields: [approvedBy], references: [id])
+  rejecter  User?   @relation("MaterialRejecter", fields: [rejectedBy], references: [id])
+
+  @@index([projectId, status])
+  @@map("material_requests")
+}
+
+model Attachment {
+  id          String     @id @default(uuid()) @map("id")
+  entityType  EntityType @map("entity_type")
+  entityId    String     @map("entity_id")
+  reportId    String?    @map("report_id")
+  issueId     String?    @map("issue_id")
+  uploadedBy  String     @map("uploaded_by")
+  fileUrl     String     @map("file_url")
+  fileName    String     @map("file_name")
+  fileSizeBytes Int      @map("file_size_bytes")
+  mimeType    String     @map("mime_type")
+  isDeleted   Boolean    @default(false) @map("is_deleted")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  uploader    User         @relation(fields: [uploadedBy], references: [id])
+  dailyReport DailyReport? @relation("DailyReportAttachments", fields: [reportId], references: [id], onDelete: Cascade)
+  issue       Issue?       @relation("IssueAttachments", fields: [issueId], references: [id], onDelete: Cascade)
+
+  @@index([entityType, entityId])
+  @@map("attachments")
+}
+
+model Notification {
+  id                String           @id @default(uuid()) @map("id")
+  recipientId       String           @map("recipient_id")
+  type              NotificationType @map("type")
+  message           String           @map("message")
+  readStatus        Boolean          @default(false) @map("read_status")
+  relatedEntityId   String?          @map("related_entity_id")
+  relatedEntityType String?          @map("related_entity_type")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  recipient User @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+
+  @@index([recipientId, readStatus])
+  @@map("notifications")
+}

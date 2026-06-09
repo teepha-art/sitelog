@@ -1,0 +1,57 @@
+/* Uses similar structure to Input */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.label {
+  font-family: var(--font-label-medium-font-family);
+  font-weight: var(--font-label-medium-font-weight);
+  font-size: var(--font-label-medium-font-size);
+  line-height: var(--font-label-medium-line-height);
+  letter-spacing: var(--font-label-medium-letter-spacing);
+  color: var(--color-on-surface);
+}
+
+.textarea {
+  width: 100%;
+  min-height: 88px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--color-outline);
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  font-family: var(--font-body-large-font-family);
+  font-size: var(--font-body-large-font-size);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  resize: vertical;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-container);
+}
+
+.textarea:disabled {
+  background-color: var(--color-surface-variant);
+  color: var(--color-on-surface-variant);
+  cursor: not-allowed;
+}
+
+.textarea.error {
+  border-color: var(--color-error);
+}
+
+.textarea.error:focus {
+  box-shadow: 0 0 0 2px var(--color-error-container);
+}
+
+.errorText {
+  font-family: var(--font-body-small-font-family);
+  font-size: var(--font-body-small-font-size);
+  color: var(--color-error);
+  margin: 0;
+}
