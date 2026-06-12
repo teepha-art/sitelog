@@ -34,12 +34,21 @@
   line-height: 1.5;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 767px) {
   .section {
     padding: 64px 16px;
   }
 
   .subtitle {
     margin-bottom: 32px;
+  }
+
+  .ctaLink {
+    display: block;
+    width: 100%;
+  }
+
+  .ctaLink button {
+    width: 100%;
   }
 }

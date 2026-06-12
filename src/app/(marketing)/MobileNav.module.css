@@ -1,0 +1,83 @@
+.root {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .root {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.hamburger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  color: var(--color-on-surface);
+  cursor: pointer;
+  border-radius: 8px;
+  position: relative;
+  z-index: 60;
+}
+
+.hamburger:hover {
+  background-color: var(--color-surface-variant);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  display: flex;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.menu {
+  position: relative;
+  margin-left: auto;
+  width: 280px;
+  max-width: 80vw;
+  height: 100%;
+  background: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+  padding: 96px 24px 24px;
+  gap: 4px;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  font-family: var(--font-label-large-i-font-family);
+  font-size: var(--font-label-large-i-font-size);
+  font-weight: var(--font-label-large-i-font-weight);
+  color: var(--color-on-surface);
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+.menuItem:hover {
+  background-color: var(--color-surface-variant);
+  color: var(--color-primary);
+}
+
+.menuAction {
+  padding: 8px 0;
+  margin-top: 4px;
+}
+
+.menuAction a {
+  display: block;
+}

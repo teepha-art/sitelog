@@ -108,17 +108,30 @@
   color: var(--color-primary);
 }
 
-@media (max-width: 640px) {
+.mobileNavWrapper {
+  display: none;
+}
+
+@media (max-width: 767px) {
   .header {
     padding: 12px 16px;
   }
 
-  .headerNav {
-    gap: 16px;
+  .headerOuter {
+    top: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0;
   }
 
+  .headerNav,
   .headerActions {
-    gap: 16px;
+    display: none;
+  }
+
+  .mobileNavWrapper {
+    display: flex;
+    align-items: center;
   }
 
   .headerLogoLink {
@@ -127,14 +140,6 @@
 
   .headerLogo {
     height: 28px;
-  }
-
-  .loginLink {
-    font-size: 13px;
-  }
-
-  .navLink {
-    font-size: 13px;
   }
 }
 
@@ -166,7 +171,7 @@
 
 .heroTitle {
   font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  font-size: clamp(1.5rem, 4.5cqi, 4.5rem);
   line-height: 1.1;
   font-weight: 700;
   max-width: 900px;
@@ -343,6 +348,28 @@
   font-size: var(--font-body-small-font-size);
   opacity: 0.7;
   margin: 0;
+}
+
+/* ─── Hero mobile responsiveness ─── */
+
+@media (max-width: 767px) {
+  .hero {
+    min-height: 85dvh;
+    padding: 96px 0 48px;
+  }
+
+  .heroTitle {
+    margin-bottom: 32px;
+  }
+
+  .heroCta {
+    display: block;
+    width: 100%;
+  }
+
+  .heroCta button {
+    width: 100%;
+  }
 }
 
 @media (min-width: 768px) {

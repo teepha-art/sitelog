@@ -9,6 +9,7 @@ import { ProblemSection } from './ProblemSection';
 import { ResponsiveShowcase } from './ResponsiveShowcase';
 import { CtaSection } from './CtaSection';
 import { ClosingCta } from './ClosingCta';
+import { MobileNav } from './MobileNav';
 import styles from './LandingPage.module.css';
 
 export default function LandingPage() {
@@ -32,6 +33,9 @@ export default function LandingPage() {
               <Button>Get Started</Button>
             </Link>
           </div>
+          <div className={styles.mobileNavWrapper}>
+            <MobileNav />
+          </div>
         </div>
       </header>
 
@@ -46,7 +50,7 @@ export default function LandingPage() {
               <span className={styles.heroTitleDark}>Every site at a glance.</span><br />
               <span className={styles.heroTitleDark}>No phone </span><span className={styles.heroTitlePrimary}>calls required.</span>
             </h1>
-            <Link href="/auth?mode=signup" tabIndex={-1}>
+            <Link href="/auth?mode=signup" tabIndex={-1} className={styles.heroCta}>
               <Button size="lg">
                 Get Started
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>

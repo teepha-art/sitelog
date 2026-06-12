@@ -14,7 +14,7 @@ export function ClosingCta() {
         <p className={styles.subtitle}>
           Bring every site into one view &mdash; no phone calls required.
         </p>
-        <Link href="/auth?mode=signup" tabIndex={-1}>
+        <Link href="/auth?mode=signup" tabIndex={-1} className={styles.ctaLink}>
           <Button size="lg">
             Get Started
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
