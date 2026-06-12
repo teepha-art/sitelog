@@ -1,4 +1,5 @@
 .page {
+  position: relative;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -12,80 +13,173 @@
   padding: 0 24px;
 }
 
-/* Header */
+/* Header — transparent at rest (dot grid shows through), inset white container on hover */
+.headerOuter {
+  position: absolute;
+  top: 24px;
+  left: 32px;
+  right: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: transparent;
+  border-radius: 8px;
+  z-index: 50;
+  transition: background-color 0.35s ease, box-shadow 0.35s ease;
+  box-shadow: none;
+}
+
+.headerOuter:hover,
+.headerOuter:focus-within {
+  background-color: var(--color-surface);
+  box-shadow: 0 4px 24px hsla(213, 37%, 50%, 0.12), 0 0 0 1px hsla(213, 37%, 50%, 0.08);
+}
+
 .header {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24px 0;
+  padding: 16px 24px;
 }
+
+.headerLeft {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.headerNav {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+
 
 .headerLogoLink {
   display: block;
-  height: 36px;
+  height: 32px;
   line-height: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .headerLogo {
-  height: 36px;
+  height: 32px;
   width: auto;
 }
 
 .headerActions {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   gap: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.navLink {
+  font-family: var(--font-label-large-i-font-family);
+  font-size: var(--font-label-large-i-font-size);
+  font-weight: var(--font-label-large-i-font-weight);
+  color: var(--color-on-surface);
+  text-decoration: none;
+}
+
+.navLink:hover {
+  color: var(--color-primary);
 }
 
 .loginLink {
-  font-family: var(--font-label-large-font-family);
-  font-weight: var(--font-label-large-font-weight);
+  font-family: var(--font-label-large-i-font-family);
+  font-size: var(--font-label-large-i-font-size);
+  font-weight: var(--font-label-large-i-font-weight);
   color: var(--color-on-surface);
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .loginLink:hover {
   color: var(--color-primary);
 }
 
+@media (max-width: 640px) {
+  .header {
+    padding: 12px 16px;
+  }
+
+  .headerNav {
+    gap: 16px;
+  }
+
+  .headerActions {
+    gap: 16px;
+  }
+
+  .headerLogoLink {
+    height: 28px;
+  }
+
+  .headerLogo {
+    height: 28px;
+  }
+
+  .loginLink {
+    font-size: 13px;
+  }
+
+  .navLink {
+    font-size: 13px;
+  }
+}
+
 /* Hero Section */
 .hero {
-  padding: 80px 0 64px;
-  text-align: center;
-}
-
-.heroTitle {
-  font-family: var(--font-display-medium-font-family);
-  font-size: var(--font-display-medium-font-size);
-  line-height: var(--font-display-medium-line-height);
-  font-weight: 700;
-  color: var(--color-on-surface);
-  margin-bottom: 24px;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.heroSubtitle {
-  font-family: var(--font-body-large-font-family);
-  font-size: var(--font-body-large-font-size);
-  color: var(--color-on-surface-variant);
-  margin-bottom: 40px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.heroVisual {
-  margin-top: 64px;
-  border-radius: 12px;
+  position: relative;
   overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--color-outline-variant);
-  background-color: var(--color-surface);
-  aspect-ratio: 16/9;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+}
+
+.heroBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.heroInner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroTitle {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  line-height: 1.1;
+  font-weight: 700;
+  max-width: 900px;
+  margin: 0 auto 40px;
+  letter-spacing: -0.04em;
+}
+
+.heroTitleDark {
+  color: var(--color-on-surface);
+}
+
+.heroTitlePrimary {
+  color: var(--color-primary);
 }
 
 /* Problem Section */
@@ -173,24 +267,25 @@
 
 /* Footer */
 .footer {
-  padding: 48px 0;
-  border-top: 1px solid var(--color-outline-variant);
-  background-color: var(--color-surface);
+  padding: 64px 24px 32px;
+  background-color: var(--color-on-surface);
   margin-top: auto;
 }
 
-.footerContent {
+.footerInner {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
-  text-align: center;
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.copyright {
-  color: var(--color-on-surface-variant);
-  font-family: var(--font-body-small-font-family);
-  font-size: var(--font-body-small-font-size);
+.footerBrand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
 .footerLogoLink {
@@ -204,27 +299,76 @@
   width: auto;
 }
 
+.footerTagline {
+  font-family: var(--font-body-medium-font-family);
+  font-size: var(--font-body-medium-font-size);
+  color: var(--color-surface-variant);
+  margin: 0;
+}
+
+.footerLinks {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.footerLink {
+  font-family: var(--font-label-large-i-font-family);
+  font-size: var(--font-label-large-i-font-size);
+  color: var(--color-surface);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.footerLink:hover {
+  opacity: 0.7;
+}
+
+.footerDivider {
+  width: 100%;
+  max-width: 1200px;
+  margin: 32px auto 24px;
+  height: 1px;
+  background-color: var(--color-surface-variant);
+  opacity: 0.3;
+}
+
+.footerBottom {
+  text-align: center;
+}
+
+.copyright {
+  color: var(--color-surface-variant);
+  font-family: var(--font-body-small-font-family);
+  font-size: var(--font-body-small-font-size);
+  opacity: 0.7;
+  margin: 0;
+}
+
 @media (min-width: 768px) {
-  .heroTitle {
-    font-size: var(--font-display-large-font-size);
-    line-height: var(--font-display-large-line-height);
-  }
-  
   .grid3 {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   .featureRow {
     flex-direction: row;
   }
-  
+
   .featureRow:nth-child(even) {
     flex-direction: row-reverse;
   }
-  
-  .footerContent {
+
+  .footerInner {
     flex-direction: row;
     justify-content: space-between;
-    text-align: left;
+    align-items: flex-start;
+  }
+
+  .footerBrand {
+    align-items: flex-start;
+  }
+
+  .footerLinks {
+    gap: 40px;
   }
 }

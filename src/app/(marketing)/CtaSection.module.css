@@ -1,0 +1,118 @@
+.section {
+  padding: 120px 0 80px;
+  background-color: var(--color-surface);
+  overflow: hidden;
+}
+
+.tape {
+  position: relative;
+  width: 100%;
+  background-color: #f5d900;
+  transform-origin: center;
+  overflow: hidden;
+}
+
+/* ─── Hazard stripes (diagonal black/yellow) ─── */
+
+.stripeTop,
+.stripeBottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 10px;
+  z-index: 2;
+}
+
+.stripeTop {
+  top: 0;
+}
+
+.stripeBottom {
+  bottom: 0;
+}
+
+/* Repeating diagonal hazard pattern: black triangle on yellow */
+.stripeTop::after,
+.stripeBottom::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    #1a1a1a 0px,
+    #1a1a1a 10px,
+    transparent 10px,
+    transparent 20px
+  );
+}
+
+/* ─── Marquee ─── */
+
+.marquee {
+  overflow: hidden;
+  padding: 24px 0;
+}
+
+.marqueeTrack {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 30s linear infinite;
+}
+
+.marqueeText {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+  font-family: var(--font-display-small-font-family);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  letter-spacing: -0.02em;
+  padding-right: 24px;
+}
+
+.triangle {
+  color: #1a1a1a;
+  flex-shrink: 0;
+}
+
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 768px) {
+  .section {
+    padding: 48px 0;
+  }
+
+  .marquee {
+    padding: 16px 0;
+  }
+
+  .marqueeText {
+    font-size: 32px;
+    gap: 8px;
+  }
+
+  .stripeTop,
+  .stripeBottom {
+    height: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .marqueeText {
+    font-size: 24px;
+    gap: 6px;
+  }
+}

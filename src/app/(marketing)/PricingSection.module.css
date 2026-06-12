@@ -12,7 +12,7 @@
   font-family: var(--font-display-small-font-family);
   font-size: var(--font-display-small-font-size);
   color: var(--color-on-surface);
-  margin-bottom: 16px;
+  margin-bottom: 32px;
 }
 
 .subtitle {
@@ -62,7 +62,7 @@
   background-color: var(--color-surface);
   border: 1px solid var(--color-outline-variant);
   border-radius: 16px;
-  padding: 32px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -103,8 +103,12 @@
 .planDesc {
   color: var(--color-on-surface-variant);
   font-size: var(--font-body-medium-font-size);
-  margin-bottom: 24px;
-  min-height: 48px;
+  margin-bottom: 16px;
+  min-height: 40px;
+}
+
+.card:not(.cardPopular) .planDesc {
+  margin-bottom: 32px;
 }
 
 .price {
@@ -115,7 +119,7 @@
   display: flex;
   align-items: baseline;
   gap: 4px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .period {
@@ -128,7 +132,7 @@
 .features {
   list-style: none;
   padding: 0;
-  margin: 0 0 32px 0;
+  margin: 0 0 20px 0;
   flex: 1;
 }
 
@@ -136,7 +140,7 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   color: var(--color-on-surface);
 }
 
@@ -148,20 +152,21 @@
 .tierToggle {
   display: inline-flex;
   background-color: var(--color-surface-variant);
-  border-radius: 6px;
-  padding: 3px;
-  margin-bottom: 20px;
-  gap: 2px;
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 24px;
 }
 
 .tierBtn {
+  flex: 1;
+  text-align: center;
   background: none;
   border: none;
-  padding: 6px 14px;
-  font-family: var(--font-label-medium-font-family);
-  font-size: var(--font-label-medium-font-size);
+  padding: 8px 16px;
+  font-family: var(--font-label-large-font-family);
+  font-size: var(--font-label-large-font-size);
   color: var(--color-on-surface-variant);
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s;
 }

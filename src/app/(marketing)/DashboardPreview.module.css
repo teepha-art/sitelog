@@ -1,0 +1,304 @@
+/* ─── Section ─── */
+.section {
+  padding: 120px 0 80px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding: 80px 0 60px;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .headerBlock {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cardVisual {
+    padding: 6px 0;
+  }
+}
+
+/* ─── Stacking Container ─── */
+.cardStack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+
+/* ─── Header Block ─── */
+.headerBlock {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 32px;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.title {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  color: var(--color-on-surface);
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.ctaButton {
+  margin-left: auto;
+  margin-right: 80px;
+}
+
+.arrowIcon {
+  transition: transform 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+
+.ctaButton:hover .arrowIcon {
+  transform: translateX(4px);
+}
+
+/* ─── Card Item ─── */
+.cardItem {
+  width: 100%;
+  background-color: var(--color-surface);
+  border-radius: 24px;
+  border: 1px solid var(--color-outline-variant);
+}
+
+/* ─── Card Inner Layout ─── */
+.cardInner {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 40px;
+}
+
+.cardText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cardTitle {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1.85rem, 3vw, 2.375rem);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-on-surface);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.cardDesc {
+  font-family: var(--font-body-medium-font-family);
+  font-size: var(--font-body-medium-font-size);
+  line-height: 1.6;
+  color: var(--color-on-surface-variant);
+}
+
+.cardVisual {
+  flex: 1.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-surface-container);
+  border-radius: 16px;
+  padding: 6px 20px 6px 0;
+  min-height: 300px;
+}
+
+/* ─── Responsive & Sticky Stacking ─── */
+@media (min-width: 768px) {
+  .cardInner {
+    flex-direction: row;
+    padding: 32px 40px;
+    gap: 20px;
+  }
+
+  .cardVisual {
+    min-height: 320px;
+  }
+
+  .headerBlock {
+    gap: 48px;
+  }
+}
+
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .cardStack {
+    gap: 0;
+  }
+
+  .cardStack::after {
+    content: '';
+    display: block;
+    height: 30vh;
+  }
+
+  .headerBlock,
+  .cardItem {
+    position: sticky;
+    top: 120px;
+  }
+
+  .headerBlock {
+    z-index: 1;
+    animation: fadeHeading linear forwards;
+    animation-timeline: view();
+    animation-range: contain 0% contain 60%;
+  }
+
+  @keyframes fadeHeading {
+    0%, 79% { opacity: 1; }
+    80%, 100% { opacity: 0; }
+  }
+
+  .cardItem {
+    margin-bottom: 8vh;
+  }
+}
+
+/* ─── Placeholder: Dashboard Panel ─── */
+.placeholderPanel {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  background-color: var(--color-surface-container);
+  border-radius: 12px;
+  border: 1px solid var(--color-outline-variant);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.placeholderTopbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-outline-variant);
+}
+
+.placeholderTopbarTitle {
+  width: 100px;
+  height: 10px;
+  border-radius: 4px;
+  background-color: var(--color-outline-variant);
+}
+
+.placeholderTopbarActions {
+  display: flex;
+  gap: 10px;
+}
+
+.placeholderDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-outline-variant);
+}
+
+/* KPI Row */
+.placeholderKpiRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.placeholderKpi {
+  background-color: var(--color-surface);
+  border-radius: 12px;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--color-outline-variant);
+}
+
+.placeholderKpiActive {
+  border-color: var(--color-primary);
+}
+
+.placeholderKpiLabel {
+  width: 60%;
+  height: 8px;
+  border-radius: 4px;
+  background-color: var(--color-outline-variant);
+}
+
+.placeholderKpiValue {
+  width: 36%;
+  height: 18px;
+  border-radius: 6px;
+  background-color: var(--color-outline);
+}
+
+.placeholderKpiActive .placeholderKpiValue {
+  background-color: var(--color-primary);
+}
+
+/* Activity list */
+.placeholderList {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.placeholderListItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: var(--color-surface);
+  border-radius: 12px;
+}
+
+.placeholderListDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-outline-variant);
+  flex-shrink: 0;
+}
+
+.placeholderListText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.placeholderLine {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background-color: var(--color-surface-variant);
+}
+
+.placeholderLineShort {
+  width: 50%;
+}
+
+@media (max-width: 400px) {
+  .placeholderKpiRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

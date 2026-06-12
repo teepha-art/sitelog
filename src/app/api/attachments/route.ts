@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/auth';
 import { uploadFile } from '@/lib/storage';
+import { MAX_FILE_SIZE_BYTES, ACCEPTED_IMAGE_TYPES } from '@/lib/constants';
 
 export async function POST(request: Request) {
   const session = await getSession();
@@ -21,6 +22,14 @@ export async function POST(request: Request) {
 
     if (entityType !== 'daily_report' && entityType !== 'issue') {
       return NextResponse.json({ ok: false, error: 'Invalid entity type' }, { status: 400 });
+    }
+
+    if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
+      return NextResponse.json({ ok: false, error: 'Only image files are allowed.' }, { status: 400 });
+    }
+
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+      return NextResponse.json({ ok: false, error: 'File must be 5MB or smaller.' }, { status: 400 });
     }
 
     // Check authorization to the entity

@@ -21,11 +21,9 @@ export function PricingSection() {
   const card2Price = isYearly ? baseMonthly * 10 : baseMonthly;
 
   return (
-    <section className={styles.pricing}>
+    <section id="pricing" className={styles.pricing}>
       <div className={styles.header}>
         <h2 className={styles.title}>Simple, predictable pricing</h2>
-        <p className={styles.subtitle}>Pay for projects, not seats. Invite as many supervisors as you need.</p>
-
         <div className={styles.toggle}>
           <button
             className={`${styles.toggleBtn} ${!isYearly ? styles.active : ''}`}

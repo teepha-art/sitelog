@@ -1,0 +1,109 @@
+/* ─── Section ─── */
+.section {
+  padding: 80px 0;
+  background-color: var(--color-surface-container);
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.headerRow {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.sectionTitle {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: var(--font-headline-large-font-size);
+  font-weight: 500;
+  color: var(--color-on-surface);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.sectionTitleHighlight {
+  color: var(--color-primary);
+}
+
+/* ─── Carousel ─── */
+.carousel {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  overflow: hidden;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-outline-variant);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.cardImage {
+  width: 100%;
+  height: 280px;
+  flex-shrink: 0;
+}
+
+.cardText {
+  padding: 24px;
+}
+
+.cardTitle {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: var(--font-title-large-font-size);
+  font-weight: 600;
+  color: var(--color-on-surface);
+  margin-bottom: 8px;
+}
+
+.cardDesc {
+  font-family: var(--font-body-medium-font-family);
+  font-size: var(--font-body-medium-font-size);
+  line-height: 1.6;
+  color: var(--color-on-surface-variant);
+  margin: 0;
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 767px) {
+  .section {
+    padding: 60px 0;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .headerRow {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .carousel {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .cardImage {
+  height: 280px;
+  }
+}
