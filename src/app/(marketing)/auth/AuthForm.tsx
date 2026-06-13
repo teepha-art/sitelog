@@ -1,53 +1,115 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Image from 'next/image';
-import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
+import { Eye, EyeOff, Loader2, ArrowRight } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
-import { Select } from '@/components/ui/Select';
 import styles from './AuthForm.module.css';
 
 type AuthMode = 'login' | 'signup' | 'forgot-password' | 'reset-password';
 
+function getEmailError(email: string): string | null {
+  if (!email.trim()) return 'Email is required';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Please enter a valid email address';
+  return null;
+}
+
+function getPasswordError(password: string): string | null {
+  if (!password) return 'Password is required';
+  return null;
+}
+
 export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
   const router = useRouter();
   const [mode, setMode] = useState<AuthMode>(defaultMode === 'signup' ? 'signup' : 'login');
-  
-  // Form fields
+  const [signupStep, setSignupStep] = useState<'step1' | 'step2'>('step1');
+
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
   const [resetCode, setResetCode] = useState('');
-  
-  // State
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-  const clearMessages = () => {
+  const clearMessages = useCallback(() => {
     setError(null);
     setSuccess(null);
-  };
+  }, []);
 
   const switchMode = (newMode: AuthMode) => {
     setMode(newMode);
     clearMessages();
     setPassword('');
     setResetCode('');
+    setShowPassword(false);
+    setTouched({});
+    setFieldErrors({});
+    setSignupStep('step1');
     const params = new URLSearchParams(window.location.search);
     params.set('mode', newMode);
     window.history.replaceState(null, '', `/auth?${params.toString()}`);
   };
 
+  const handleBlur = (field: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    let err: string | null = null;
+    if (field === 'email') err = getEmailError(email);
+    if (field === 'password') err = getPasswordError(password);
+    setFieldErrors((prev) => ({ ...prev, [field]: err || '' }));
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+    if (touched.email) {
+      const err = getEmailError(value);
+      setFieldErrors((prev) => ({ ...prev, email: err || '' }));
+    }
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setPassword(value);
+    if (touched.password) {
+      const err = getPasswordError(value);
+      setFieldErrors((prev) => ({ ...prev, password: err || '' }));
+    }
+    if (!value) setShowPassword(false);
+  };
+
+  const handleContinueToStep2 = () => {
+    clearMessages();
+    const nameErr = !fullName.trim() ? 'Name is required' : null;
+    const roleErr = !role ? 'Please select a role' : null;
+    setTouched({ fullName: true, role: true });
+    setFieldErrors({ fullName: nameErr || '', role: roleErr || '' });
+    if (!nameErr && !roleErr) {
+      setSignupStep('step2');
+      setTouched({});
+      setFieldErrors({});
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     clearMessages();
-    setIsLoading(true);
 
     if (mode === 'login') {
+      const emailErr = getEmailError(email);
+      const passwordErr = getPasswordError(password);
+      setTouched({ email: true, password: true });
+      setFieldErrors({ email: emailErr || '', password: passwordErr || '' });
+      if (emailErr || passwordErr) return;
+
+      setIsLoading(true);
       fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -67,6 +129,13 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
           setIsLoading(false);
         });
     } else if (mode === 'signup') {
+      const emailErr = getEmailError(email);
+      const passwordErr = getPasswordError(password);
+      setTouched({ email: true, password: true });
+      setFieldErrors({ email: emailErr || '', password: passwordErr || '' });
+      if (emailErr || passwordErr) return;
+
+      setIsLoading(true);
       fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -86,6 +155,7 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
           setIsLoading(false);
         });
     } else if (mode === 'forgot-password') {
+      setIsLoading(true);
       fetch('/api/auth/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -107,6 +177,7 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
           setIsLoading(false);
         });
     } else if (mode === 'reset-password') {
+      setIsLoading(true);
       fetch('/api/auth/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -131,70 +202,271 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
     }
   };
 
+  const renderSubmitButton = (label: string, showArrow = false) => (
+    <button type="submit" className={styles.submitButton} disabled={isLoading}>
+      {isLoading && <Loader2 size={20} className={styles.spinner} />}
+      {!isLoading && showArrow && <ArrowRight size={20} />}
+      {isLoading ? `${label}...` : label}
+    </button>
+  );
+
+  const renderLoginPasswordField = () => {
+    const hasError = touched.password && fieldErrors.password;
+    return (
+      <div className={styles.passwordWrapper}>
+        <div className={styles.labelRow}>
+          <span className={styles.fieldLabel}>Password</span>
+          <button
+            type="button"
+            className={styles.forgotLink}
+            onClick={() => switchMode('forgot-password')}
+          >
+            Forgot password
+          </button>
+        </div>
+        <div className={styles.passwordInputWrapper}>
+          <input
+            id="login-password"
+            className={`${styles.passwordField} ${hasError ? styles.passwordFieldError : ''}`}
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={handlePasswordChange}
+            onBlur={() => handleBlur('password')}
+            required
+            disabled={isLoading}
+            placeholder=" "
+            aria-invalid={!!hasError}
+            aria-describedby={hasError ? 'login-password-error' : undefined}
+          />
+          {password.length > 0 && (
+            <button
+              type="button"
+              className={styles.passwordToggle}
+              onClick={() => setShowPassword((prev) => !prev)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              tabIndex={-1}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          )}
+        </div>
+        {hasError && (
+          <p id="login-password-error" className={styles.fieldError} role="alert">
+            {fieldErrors.password}
+          </p>
+        )}
+      </div>
+    );
+  };
+
+  const renderSignupPasswordField = () => {
+    const hasError = touched.password && fieldErrors.password;
+    return (
+      <div className={styles.passwordWrapper}>
+        <span className={styles.fieldLabel}>Password</span>
+        <div className={styles.passwordInputWrapper}>
+          <input
+            id="signup-password"
+            className={`${styles.passwordField} ${hasError ? styles.passwordFieldError : ''}`}
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={handlePasswordChange}
+            onBlur={() => handleBlur('password')}
+            required
+            disabled={isLoading}
+            placeholder=" "
+            aria-invalid={!!hasError}
+            aria-describedby={hasError ? 'signup-password-error' : undefined}
+          />
+          {password.length > 0 && (
+            <button
+              type="button"
+              className={styles.passwordToggle}
+              onClick={() => setShowPassword((prev) => !prev)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              tabIndex={-1}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          )}
+        </div>
+        {hasError && (
+          <p id="signup-password-error" className={styles.fieldError} role="alert">
+            {fieldErrors.password}
+          </p>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.logo}>
-        <a href="/" className={styles.logoLink}>
-          <Image src="/logo/sitelog_wordmark_color.svg" alt="SiteLog" width={0} height={0} className={styles.logoImage} priority />
-        </a>
+        <Link href="/" className={styles.logoLink}>
+          <Image
+            src="/logo/sitelog_wordmark_color.svg"
+            alt="SiteLog"
+            width={0}
+            height={0}
+            className={styles.logoImage}
+            priority
+          />
+        </Link>
       </div>
 
-      <Card padding="lg" className={styles.card}>
+      <div className={styles.formContainer}>
         <div className={styles.header}>
-          <h1 className={styles.title}>
-            {mode === 'login' && 'Log in to SiteLog'}
-            {mode === 'signup' && 'Create your account'}
-            {mode === 'forgot-password' && 'Reset your password'}
-            {mode === 'reset-password' && 'Enter reset code'}
-          </h1>
+          {(mode === 'forgot-password' || mode === 'reset-password') && (
+            <h1 className={styles.title}>
+              {mode === 'forgot-password' && 'Reset your password'}
+              {mode === 'reset-password' && 'Enter reset code'}
+            </h1>
+          )}
           <p className={styles.subtitle}>
-            {mode === 'login' && 'Welcome back! Please enter your details.'}
-            {mode === 'signup' && 'Sign up to start managing your projects.'}
-            {mode === 'forgot-password' && 'Enter your email to receive a 6-digit code.'}
-            {mode === 'reset-password' && 'Check your email for the 6-digit code.'}
+            {mode === 'login' && 'Welcome back!'}
+            {mode === 'signup' && 'Create your account!'}
+            {mode === 'forgot-password' &&
+              'Enter your email to receive a 6-digit code.'}
+            {mode === 'reset-password' &&
+              'Check your email for the 6-digit code.'}
           </p>
         </div>
 
-        {error && <div className={`${styles.alert} ${styles.error}`}>{error}</div>}
-        {success && <div className={`${styles.alert} ${styles.success}`}>{success}</div>}
+        {error && (
+          <div className={styles.serverError} role="alert">
+            {error}
+          </div>
+        )}
+        {success && (
+          <div className={styles.successBanner} role="status">
+            {success}
+          </div>
+        )}
 
-        <form 
-          className={styles.form} 
-          onSubmit={handleSubmit}
-          noValidate
-        >
-          {mode === 'signup' && (
+        <form className={styles.form} onSubmit={handleSubmit} noValidate>
+          {mode === 'signup' && signupStep === 'step1' && (
             <>
               <Input
                 label="Full Name"
                 type="text"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
+                error={
+                  touched.fullName && fieldErrors.fullName
+                    ? fieldErrors.fullName
+                    : undefined
+                }
                 required
                 disabled={isLoading}
+                placeholder=" "
+                autoFocus
               />
-              <Select
-                label="Role"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                required
-                disabled={isLoading}
-                options={[
-                  { value: 'project_manager', label: 'Project Manager' },
-                  { value: 'site_supervisor', label: 'Site Supervisor' },
-                ]}
-              />
+              <div>
+                <span className={styles.fieldLabel}>Role</span>
+                <div className={styles.roleCards} style={{ marginTop: 8 }}>
+                  <button
+                    type="button"
+                    className={`${styles.roleCard} ${role === 'project_manager' ? styles.roleCardActive : ''}`}
+                    onClick={() => setRole('project_manager')}
+                  >
+                    Project Manager
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.roleCard} ${role === 'site_supervisor' ? styles.roleCardActive : ''}`}
+                    onClick={() => setRole('site_supervisor')}
+                  >
+                    Site Supervisor
+                  </button>
+                </div>
+                {touched.role && fieldErrors.role && (
+                  <p className={styles.fieldError} style={{ marginTop: 4 }}>
+                    {fieldErrors.role}
+                  </p>
+                )}
+              </div>
+              <div className={styles.actions}>
+                <button
+                  type="button"
+                  className={styles.submitButton}
+                  onClick={handleContinueToStep2}
+                >
+                  Continue <ArrowRight size={20} />
+                </button>
+                <button
+                  type="button"
+                  className={styles.link}
+                  onClick={() => switchMode('login')}
+                >
+                  Already have an account? Log in
+                </button>
+              </div>
             </>
           )}
 
-          {(mode === 'login' || mode === 'signup' || mode === 'forgot-password' || mode === 'reset-password') && (
+          {mode === 'signup' && signupStep === 'step2' && (
+            <>
+              <Input
+                label="Email"
+                type="email"
+                value={email}
+                onChange={handleEmailChange}
+                onBlur={() => handleBlur('email')}
+                error={
+                  touched.email && fieldErrors.email
+                    ? fieldErrors.email
+                    : undefined
+                }
+                required
+                disabled={isLoading}
+                placeholder=" "
+                autoFocus
+              />
+              {renderSignupPasswordField()}
+              <div className={styles.actions}>
+                {renderSubmitButton('Create account')}
+                <button
+                  type="button"
+                  className={styles.backLink}
+                  onClick={() => {
+                    setSignupStep('step1');
+                    setTouched({});
+                    setFieldErrors({});
+                  }}
+                >
+                  Back
+                </button>
+                <button
+                  type="button"
+                  className={styles.link}
+                  onClick={() => switchMode('login')}
+                >
+                  Already have an account? Log in
+                </button>
+              </div>
+            </>
+          )}
+
+          {(mode === 'login' ||
+            mode === 'forgot-password' ||
+            mode === 'reset-password') && (
             <Input
               label="Email"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={
+                mode === 'login'
+                  ? handleEmailChange
+                  : (e) => setEmail(e.target.value)
+              }
+              onBlur={mode === 'login' ? () => handleBlur('email') : undefined}
+              error={
+                mode === 'login' && touched.email ? fieldErrors.email : undefined
+              }
               required
               disabled={isLoading || mode === 'reset-password'}
+              placeholder=" "
+              autoFocus
             />
           )}
 
@@ -207,53 +479,56 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
               required
               disabled={isLoading}
               maxLength={6}
+              placeholder=" "
             />
           )}
 
-          {(mode === 'login' || mode === 'signup' || mode === 'reset-password') && (
+          {mode === 'login' && renderLoginPasswordField()}
+
+          {mode === 'reset-password' && (
             <Input
-              label={mode === 'reset-password' ? 'New Password' : 'Password'}
+              label="New Password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               disabled={isLoading}
+              placeholder=" "
             />
           )}
 
-          <div className={styles.actions}>
-            <Button type="submit" fullWidth loading={isLoading}>
-              {mode === 'login' && 'Log In'}
-              {mode === 'signup' && 'Sign Up'}
-              {mode === 'forgot-password' && 'Send Code'}
-              {mode === 'reset-password' && 'Reset Password'}
-            </Button>
+          {(mode === 'login' ||
+            mode === 'forgot-password' ||
+            mode === 'reset-password') && (
+            <div className={styles.actions}>
+              {mode === 'login' && renderSubmitButton('Sign in')}
+              {mode === 'forgot-password' && renderSubmitButton('Send Code')}
+              {mode === 'reset-password' &&
+                renderSubmitButton('Reset Password')}
 
-            {mode === 'login' && (
-              <>
-                <button type="button" className={styles.link} onClick={() => switchMode('forgot-password')}>
-                  Forgot your password?
+              {mode === 'login' && (
+                <button
+                  type="button"
+                  className={styles.link}
+                  onClick={() => switchMode('signup')}
+                >
+                  Don&apos;t have an account? Sign up
                 </button>
-                <button type="button" className={styles.link} onClick={() => switchMode('signup')}>
-                  Don't have an account? Sign up
+              )}
+
+              {(mode === 'forgot-password' || mode === 'reset-password') && (
+                <button
+                  type="button"
+                  className={styles.link}
+                  onClick={() => switchMode('login')}
+                >
+                  Back to log in
                 </button>
-              </>
-            )}
-
-            {mode === 'signup' && (
-              <button type="button" className={styles.link} onClick={() => switchMode('login')}>
-                Already have an account? Log in
-              </button>
-            )}
-
-            {(mode === 'forgot-password' || mode === 'reset-password') && (
-              <button type="button" className={styles.link} onClick={() => switchMode('login')}>
-                Back to log in
-              </button>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </form>
-      </Card>
+      </div>
     </div>
   );
 }

@@ -6,31 +6,34 @@
 }
 
 .label {
-  font-family: var(--font-label-medium-font-family);
-  font-weight: var(--font-label-medium-font-weight);
-  font-size: var(--font-label-medium-font-size);
-  line-height: var(--font-label-medium-line-height);
-  letter-spacing: var(--font-label-medium-letter-spacing);
+  font-family: var(--font-label-medium-i-font-family);
+  font-weight: var(--font-label-medium-i-font-weight);
+  font-size: var(--font-label-medium-i-font-size);
+  line-height: var(--font-label-medium-i-line-height);
+  letter-spacing: var(--font-label-medium-i-letter-spacing);
   color: var(--color-on-surface);
 }
 
 .input {
   width: 100%;
-  min-height: 44px; /* MIN_TAP_TARGET_PX */
-  padding: 0 16px;
+  min-height: 44px;
+  padding: 0 12px;
   border-radius: 8px;
-  border: 1px solid var(--color-outline);
+  border: 1px solid var(--color-outline-variant);
   background-color: var(--color-surface);
   color: var(--color-on-surface);
-  font-family: var(--font-body-large-font-family);
-  font-size: var(--font-body-large-font-size);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: var(--font-body-medium-font-family);
+  font-size: var(--font-body-medium-font-size);
+  line-height: var(--font-body-medium-line-height);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
 }
 
 .input:focus {
-  outline: none;
+  outline: 2px solid var(--color-primary);
+  outline-offset: -1px;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px var(--color-primary-container);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-primary) 20%, transparent);
 }
 
 .input:disabled {
@@ -44,7 +47,19 @@
 }
 
 .input.error:focus {
-  box-shadow: 0 0 0 2px var(--color-error-container);
+  outline: 2px solid var(--color-error);
+  outline-offset: -1px;
+  border-color: var(--color-error);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-error) 20%, transparent);
+}
+
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus {
+  background-color: var(--color-surface-container-low) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--color-surface-container-low) inset !important;
+  -webkit-text-fill-color: var(--color-on-surface) !important;
+  caret-color: var(--color-on-surface);
 }
 
 .errorText {
