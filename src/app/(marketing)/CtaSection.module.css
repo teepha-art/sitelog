@@ -92,7 +92,7 @@
 
 @media (max-width: 767px) {
   .section {
-    padding: 48px 0;
+    padding: 40px 0 24px;
   }
 
   .marquee {

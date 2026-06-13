@@ -12,7 +12,7 @@
 
 @media (max-width: 767px) {
   .section {
-    padding: 80px 0;
+    padding: 40px 0;
   }
 
   .container {
@@ -49,7 +49,7 @@
   .cardStack::after {
     content: '';
     display: block;
-    height: 30vh;
+    height: 5vh;
   }
 
   .headerBlock,
@@ -71,7 +71,7 @@
   }
 
   .cardItem {
-    margin-bottom: 8vh;
+    margin-bottom: 3vh;
   }
 }
 

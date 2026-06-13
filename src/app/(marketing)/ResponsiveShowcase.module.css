@@ -309,7 +309,7 @@
 /* ─── Responsive: Mobile ─── */
 @media (max-width: 767px) {
   .section {
-    padding: 60px 0;
+    padding: 32px 0 60px;
   }
 
   .container {

@@ -81,10 +81,19 @@
   margin: 0;
 }
 
+/* ─── Mobile Carousel (hidden on desktop) ─── */
+.mobileCarousel {
+  display: none;
+}
+
+.arrows {
+  display: none;
+}
+
 /* ─── Mobile ─── */
 @media (max-width: 767px) {
   .section {
-    padding: 60px 0;
+    padding: 24px 0 32px;
   }
 
   .container {
@@ -92,18 +101,76 @@
   }
 
   .headerRow {
-    flex-direction: column;
-    text-align: center;
-    gap: 16px;
-    margin-bottom: 32px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    gap: 12px;
+    margin-bottom: 24px;
   }
 
   .carousel {
-    flex-direction: column;
+    display: none;
+  }
+
+  .mobileCarousel {
+    display: block;
+    overflow: hidden;
+  }
+
+  .track {
+    display: flex;
     gap: 16px;
+    padding-right: 32px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobileCard {
+    flex: 0 0 calc(100% - 48px);
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-outline-variant);
   }
 
   .cardImage {
-  height: 280px;
+    height: 200px;
+  }
+
+  .arrows {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--color-outline-variant);
+    background: var(--color-surface);
+    color: var(--color-primary);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .arrow:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
   }
 }
