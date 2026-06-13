@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import styles from './PricingSection.module.css';
@@ -16,14 +16,32 @@ function CheckIcon() {
 export function PricingSection() {
   const [isYearly, setIsYearly] = useState(true);
   const [card2Tier, setCard2Tier] = useState<'starter' | 'premium'>('starter');
+  const [current, setCurrent] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
 
   const baseMonthly = card2Tier === 'starter' ? 19 : 49;
   const card2Price = isYearly ? baseMonthly * 10 : baseMonthly;
 
+  const handleScroll = useCallback(() => {
+    if (!trackRef.current) return;
+    const scrollLeft = trackRef.current.scrollLeft;
+    const children = Array.from(trackRef.current.children);
+    let closest = 0;
+    let minDist = Infinity;
+    children.forEach((child, i) => {
+      const dist = Math.abs((child as HTMLElement).offsetLeft - scrollLeft);
+      if (dist < minDist) {
+        minDist = dist;
+        closest = i;
+      }
+    });
+    if (closest !== current) setCurrent(closest);
+  }, [current]);
+
   return (
     <section id="pricing" className={styles.pricing}>
       <div className={styles.header}>
-        <h2 className={styles.title}>Simple, predictable pricing</h2>
+        <h2 className={styles.title}>Simple, predictable<br />pricing</h2>
         <div className={styles.toggle}>
           <button
             className={`${styles.toggleBtn} ${!isYearly ? styles.active : ''}`}
@@ -40,7 +58,7 @@ export function PricingSection() {
         </div>
       </div>
 
-      <div className={styles.grid}>
+      <div ref={trackRef} className={styles.grid} onScroll={handleScroll}>
         {/* Free Plan */}
         <div className={styles.card}>
           <h3 className={styles.planName}>Free</h3>
@@ -130,6 +148,22 @@ export function PricingSection() {
             <Button variant="secondary" fullWidth>Get Started</Button>
           </Link>
         </div>
+      </div>
+
+      <div className={styles.dots}>
+        {[0, 1, 2].map(i => (
+          <button
+            key={i}
+            className={`${styles.dot} ${i === current ? styles.dotActive : ''}`}
+            onClick={() => {
+              if (trackRef.current) {
+                const child = trackRef.current.children[i] as HTMLElement;
+                if (child) child.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+              }
+            }}
+            aria-label={`Go to card ${i + 1}`}
+          />
+        ))}
       </div>
     </section>
   );

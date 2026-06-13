@@ -11,9 +11,9 @@
 
 .heading {
   margin: 0 0 16px;
-  font-family: var(--font-display-small-font-family);
-  font-size: clamp(2rem, 5vw, 3.25rem);
-  font-weight: 500;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1.5rem, 4cqi, 2.5rem);
+  font-weight: 600;
   line-height: 1.15;
   letter-spacing: -0.03em;
 }
@@ -36,7 +36,7 @@
 
 @media (max-width: 767px) {
   .section {
-    padding: 64px 16px;
+    padding: 48px 16px;
   }
 
   .subtitle {

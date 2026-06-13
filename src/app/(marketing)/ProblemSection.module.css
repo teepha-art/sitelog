@@ -21,11 +21,12 @@
 
 .sectionTitle {
   font-family: "Space Grotesk", sans-serif;
-  font-size: var(--font-headline-large-font-size);
-  font-weight: 500;
+  font-size: clamp(1.5rem, 4cqi, 2.5rem);
+  font-weight: 600;
   color: var(--color-on-surface);
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
 }
 
 .sectionTitleHighlight {
@@ -93,7 +94,7 @@
 /* ─── Mobile ─── */
 @media (max-width: 767px) {
   .section {
-    padding: 24px 0 32px;
+    padding: 48px 0;
   }
 
   .container {

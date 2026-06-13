@@ -9,10 +9,13 @@
 }
 
 .title {
-  font-family: var(--font-display-small-font-family);
-  font-size: var(--font-display-small-font-size);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1.5rem, 4cqi, 2.5rem);
+  font-weight: 600;
   color: var(--color-on-surface);
   margin-bottom: 32px;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
 }
 
 .subtitle {
@@ -174,4 +177,69 @@
 .tierActive {
   background-color: var(--color-primary);
   color: var(--color-on-primary);
+}
+
+/* ─── Dots (hidden on desktop) ─── */
+.dots {
+  display: none;
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 767px) {
+  .pricing {
+    padding: 48px 0;
+  }
+
+  .title {
+    line-height: 1.15;
+  }
+
+  .grid {
+    display: flex;
+    gap: 16px;
+    padding: 0 24px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+  }
+
+  .grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .card {
+    flex: 0 0 calc(100% - 64px);
+    scroll-snap-align: center;
+    flex-shrink: 0;
+  }
+
+  .card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 24px;
+    padding-bottom: 8px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--color-outline-variant);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.2s;
+  }
+
+  .dotActive {
+    background-color: var(--color-primary);
+  }
 }

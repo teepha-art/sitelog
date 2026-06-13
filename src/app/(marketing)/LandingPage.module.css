@@ -171,7 +171,7 @@
 
 .heroTitle {
   font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(1.5rem, 4.5cqi, 4.5rem);
+  font-size: clamp(2rem, 5cqi, 4rem);
   line-height: 1.1;
   font-weight: 700;
   max-width: 900px;
