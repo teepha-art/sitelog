@@ -74,6 +74,9 @@ model User {
   resetCode          String?   @map("reset_code")
   resetCodeExpiresAt DateTime? @map("reset_code_expires_at")
 
+  // Onboarding
+  onboardedAt DateTime? @map("onboarded_at")
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

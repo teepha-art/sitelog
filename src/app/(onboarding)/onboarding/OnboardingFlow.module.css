@@ -1,0 +1,220 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: white;
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+}
+
+/* ── Step Indicator ── */
+
+.stepIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 48px;
+}
+
+.stepDotGroup {
+  display: flex;
+  align-items: center;
+}
+
+.stepDot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-label-medium-i-font-family);
+  font-size: var(--font-label-medium-i-font-size);
+  font-weight: 500;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.stepDot.active {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.stepDot.completed {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.stepDot.upcoming {
+  background-color: transparent;
+  color: var(--color-on-surface-variant);
+  border: 2px solid var(--color-outline-variant);
+}
+
+.stepLine {
+  width: 48px;
+  height: 2px;
+  background-color: var(--color-outline-variant);
+  transition: background-color 0.3s ease;
+}
+
+.stepLine.lineCompleted {
+  background-color: var(--color-primary);
+}
+
+/* ── Step Content ── */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .content {
+    animation: fadeSlideIn 300ms ease;
+  }
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.iconCircle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--color-primary-container);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  flex-shrink: 0;
+}
+
+.heading {
+  font-family: var(--font-headline-small-font-family);
+  font-size: var(--font-headline-small-font-size);
+  font-weight: var(--font-headline-small-font-weight);
+  line-height: var(--font-headline-small-line-height);
+  color: var(--color-on-surface);
+  margin: 0 0 8px;
+}
+
+.body {
+  font-family: var(--font-body-medium-font-family);
+  font-size: var(--font-body-medium-font-size);
+  color: var(--color-on-surface-variant);
+  margin: 0;
+}
+
+/* ── Buttons ── */
+
+.buttons {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+}
+
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: var(--font-label-large-i-font-family);
+  font-weight: var(--font-label-large-i-font-weight);
+  font-size: var(--font-label-large-i-font-size);
+  line-height: var(--font-label-large-i-line-height);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  box-sizing: border-box;
+}
+
+.primaryButton svg {
+  transition: transform 0.2s ease-in-out;
+}
+
+.primaryButton:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.primaryButton:hover:not(:disabled) svg {
+  transform: translateX(4px);
+}
+
+.primaryButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.secondaryRow {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  align-items: center;
+}
+
+.backLink,
+.skipLink {
+  font-family: var(--font-body-medium-font-family);
+  font-size: var(--font-body-medium-font-size);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 4px;
+  min-height: 44px;
+  min-width: 44px;
+  transition: color 0.15s ease;
+}
+
+.backLink {
+  color: var(--color-on-surface-variant);
+}
+
+.backLink:hover:not(:disabled) {
+  color: var(--color-on-surface);
+}
+
+.skipLink {
+  color: var(--color-primary);
+}
+
+.skipLink:hover:not(:disabled) {
+  opacity: 0.8;
+}
+
+.backLink:disabled,
+.skipLink:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (max-width: 767px) {
+  .primaryButton svg {
+    display: none;
+  }
+}

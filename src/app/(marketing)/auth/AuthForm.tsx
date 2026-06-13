@@ -172,7 +172,7 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
             setIsLoading(false);
             return;
           }
-          router.push(data.data.role === 'project_manager' ? '/dashboard' : '/projects');
+          router.push('/onboarding');
         })
         .catch(() => {
           setError('Something went wrong. Please try again later.');
