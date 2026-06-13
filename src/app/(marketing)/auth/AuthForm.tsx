@@ -21,6 +21,30 @@ function getPasswordError(password: string): string | null {
   return null;
 }
 
+const PASSWORD_RULES = [
+  { test: (p: string) => /[A-Z]/.test(p), hint: 'Must contain an uppercase letter' },
+  { test: (p: string) => /[a-z]/.test(p), hint: 'Must contain a lowercase letter' },
+  { test: (p: string) => /\d/.test(p), hint: 'Must contain a number' },
+  { test: (p: string) => /[^A-Za-z0-9]/.test(p), hint: 'Must contain a special character' },
+  { test: (p: string) => p.length >= 8, hint: 'Must be at least 8 characters' },
+];
+
+function getCurrentPasswordHint(password: string): string | null {
+  if (!password) return null;
+  for (const rule of PASSWORD_RULES) {
+    if (!rule.test(password)) return rule.hint;
+  }
+  return null;
+}
+
+function getStrongPasswordError(password: string): string | null {
+  if (!password) return 'Password is required';
+  for (const rule of PASSWORD_RULES) {
+    if (!rule.test(password)) return rule.hint;
+  }
+  return null;
+}
+
 export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
   const router = useRouter();
   const [mode, setMode] = useState<AuthMode>(defaultMode === 'signup' ? 'signup' : 'login');
@@ -62,7 +86,7 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
     setTouched((prev) => ({ ...prev, [field]: true }));
     let err: string | null = null;
     if (field === 'email') err = getEmailError(email);
-    if (field === 'password') err = getPasswordError(password);
+    if (field === 'password') err = mode === 'login' ? getPasswordError(password) : getStrongPasswordError(password);
     setFieldErrors((prev) => ({ ...prev, [field]: err || '' }));
   };
 
@@ -79,7 +103,7 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
     const value = e.target.value;
     setPassword(value);
     if (touched.password) {
-      const err = getPasswordError(value);
+      const err = mode === 'login' ? getPasswordError(value) : getStrongPasswordError(value);
       setFieldErrors((prev) => ({ ...prev, password: err || '' }));
     }
     if (!value) setShowPassword(false);
@@ -130,7 +154,7 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
         });
     } else if (mode === 'signup') {
       const emailErr = getEmailError(email);
-      const passwordErr = getPasswordError(password);
+      const passwordErr = getStrongPasswordError(password);
       setTouched({ email: true, password: true });
       setFieldErrors({ email: emailErr || '', password: passwordErr || '' });
       if (emailErr || passwordErr) return;
@@ -177,6 +201,11 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
           setIsLoading(false);
         });
     } else if (mode === 'reset-password') {
+      const passwordErr = getStrongPasswordError(password);
+      if (passwordErr) {
+        setError(passwordErr);
+        return;
+      }
       setIsLoading(true);
       fetch('/api/auth/reset-password', {
         method: 'POST',
@@ -246,7 +275,7 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
               aria-label={showPassword ? 'Hide password' : 'Show password'}
               tabIndex={-1}
             >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
             </button>
           )}
         </div>
@@ -286,7 +315,7 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
               aria-label={showPassword ? 'Hide password' : 'Show password'}
               tabIndex={-1}
             >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
             </button>
           )}
         </div>
@@ -295,6 +324,12 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
             {fieldErrors.password}
           </p>
         )}
+        {password.length > 0 && (() => {
+          const hint = getCurrentPasswordHint(password);
+          return hint ? (
+            <span key={hint} className={styles.passwordHint}>{hint}</span>
+          ) : null;
+        })()}
       </div>
     );
   };
@@ -486,15 +521,48 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
           {mode === 'login' && renderLoginPasswordField()}
 
           {mode === 'reset-password' && (
-            <Input
-              label="New Password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              disabled={isLoading}
-              placeholder=" "
-            />
+            <div className={styles.passwordWrapper}>
+              <span className={styles.fieldLabel}>New Password</span>
+              <div className={styles.passwordInputWrapper}>
+                <input
+                  id="reset-password"
+                  className={`${styles.passwordField} ${touched.password && fieldErrors.password ? styles.passwordFieldError : ''}`}
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (!e.target.value) setShowPassword(false);
+                  }}
+                  onBlur={() => handleBlur('password')}
+                  required
+                  disabled={isLoading}
+                  placeholder=" "
+                  aria-invalid={!!(touched.password && fieldErrors.password)}
+                />
+                {password.length > 0 && (
+                  <button
+                    type="button"
+                    className={styles.passwordToggle}
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    tabIndex={-1}
+                  >
+                    {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+                  </button>
+                )}
+              </div>
+              {touched.password && fieldErrors.password && (
+                <p className={styles.fieldError} role="alert">
+                  {fieldErrors.password}
+                </p>
+              )}
+              {password.length > 0 && (() => {
+                const hint = getCurrentPasswordHint(password);
+                return hint ? (
+                  <span key={hint} className={styles.passwordHint}>{hint}</span>
+                ) : null;
+              })()}
+            </div>
           )}
 
           {(mode === 'login' ||
