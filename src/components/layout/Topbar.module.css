@@ -92,11 +92,24 @@
   background-color: var(--color-surface-variant);
 }
 
+.divider {
+  height: 1px;
+  background-color: var(--color-outline-variant);
+  margin: 4px 0;
+}
+
+.mobileOnlyItem {
+  display: block;
+}
+
 @media (min-width: 768px) {
   .topbar {
     padding: 20px 24px 16px 24px;
   }
   .name {
     display: block;
+  }
+  .mobileOnlyItem {
+    display: none;
   }
 }

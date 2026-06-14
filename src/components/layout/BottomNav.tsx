@@ -13,8 +13,8 @@ interface BottomNavProps {
 export function BottomNav({ items }: BottomNavProps) {
   const pathname = usePathname();
   
-  // Show max 5 items on bottom nav
-  const displayItems = items.slice(0, 5);
+  // Show max 4 items on bottom nav
+  const displayItems = items.slice(0, 4);
 
   return (
     <nav className={styles.bottomNav}>
