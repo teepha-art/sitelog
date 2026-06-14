@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { Role } from '@prisma/client';
 import { notFound } from 'next/navigation';
 import { Card } from '@/components/ui/Card';
+import { BackButton } from '@/components/ui/BackButton';
 import { SettingsForm } from './SettingsForm';
 
 export default async function SettingsPage() {
@@ -18,13 +19,16 @@ export default async function SettingsPage() {
 
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-      <h1 style={{ 
-        fontFamily: 'var(--font-headline-medium-font-family)', 
-        fontSize: 'var(--font-headline-medium-font-size)',
-        marginBottom: '24px'
-      }}>
-        Settings
-      </h1>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px' }}>
+        <BackButton />
+        <h1 style={{ 
+          fontFamily: 'var(--font-headline-medium-font-family)', 
+          fontSize: 'var(--font-headline-medium-font-size)',
+          margin: 0
+        }}>
+          Settings
+        </h1>
+      </div>
       
       <SettingsForm user={{ fullName: user.fullName, email: user.email, profileImageUrl: user.profileImageUrl }} />
     </div>

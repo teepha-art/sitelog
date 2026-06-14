@@ -111,3 +111,14 @@
   color: var(--color-on-surface-variant);
   font-family: var(--font-body-medium-font-family);
 }
+
+@media (max-width: 767px) {
+  .dropdown {
+    position: fixed;
+    top: 80px;
+    left: 16px;
+    right: 16px;
+    width: auto;
+    max-width: none;
+  }
+}

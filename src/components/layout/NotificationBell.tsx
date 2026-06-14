@@ -14,11 +14,17 @@ interface Notification {
   createdAt: string;
 }
 
-export function NotificationBell() {
-  const [isOpen, setIsOpen] = useState(false);
+interface NotificationBellProps {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+export function NotificationBell({ isOpen, onOpenChange }: NotificationBellProps) {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const onOpenChangeRef = useRef(onOpenChange);
+  onOpenChangeRef.current = onOpenChange;
 
   useEffect(() => {
     fetchNotifications();
@@ -26,7 +32,7 @@ export function NotificationBell() {
     // Close dropdown on click outside
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+        onOpenChangeRef.current(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -47,10 +53,11 @@ export function NotificationBell() {
   };
 
   const handleOpen = async () => {
-    setIsOpen(!isOpen);
-    
+    const next = !isOpen;
+    onOpenChange(next);
+
     // If opening and we have unread, mark them as read on the server
-    if (!isOpen && unreadCount > 0) {
+    if (next && unreadCount > 0) {
       setUnreadCount(0); // optimistic UI update
       try {
         await fetch('/api/notifications', { method: 'POST' });
@@ -95,7 +102,7 @@ export function NotificationBell() {
                   key={notif.id} 
                   href={getHref(notif.relatedEntityType, notif.relatedEntityId)}
                   className={`${styles.item} ${!notif.readStatus ? styles.unread : ''}`}
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => onOpenChange(false)}
                 >
                   <div className={styles.message}>{notif.message}</div>
                   <div className={styles.time}>{new Date(notif.createdAt).toLocaleDateString()}</div>

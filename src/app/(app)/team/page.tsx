@@ -4,6 +4,7 @@ import { getSession } from '@/lib/auth';
 import { notFound } from 'next/navigation';
 import { Role } from '@prisma/client';
 import { Card } from '@/components/ui/Card';
+import { BackButton } from '@/components/ui/BackButton';
 import { EmptyState } from '@/components/states/EmptyState';
 import { Avatar } from '@/components/ui/Avatar';
 
@@ -33,15 +34,18 @@ export default async function TeamPage() {
 
   return (
     <div>
-      <h2 style={{ 
-        fontFamily: 'var(--font-title-large-font-family)', 
-        fontSize: 'var(--font-title-large-font-size)',
-        fontWeight: '700',
-        color: 'var(--color-on-surface)',
-        margin: '0 0 24px 0'
-      }}>
-        Team Members
-      </h2>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px' }}>
+        <BackButton />
+        <h2 style={{ 
+          fontFamily: 'var(--font-title-large-font-family)', 
+          fontSize: 'var(--font-title-large-font-size)',
+          fontWeight: '700',
+          color: 'var(--color-on-surface)',
+          margin: 0
+        }}>
+          Team Members
+        </h2>
+      </div>
       
       {teamMembers.length === 0 ? (
         <EmptyState message="You haven't assigned any supervisors to your projects yet." />

@@ -15,7 +15,6 @@ export function Avatar({ name, imageUrl, size = 28, className = '' }: AvatarProp
     <div
       className={`${styles.avatar} ${className}`}
       style={{ width: size, height: size, fontSize: size * 0.4 }}
-      title={name}
     >
       {imageUrl ? (
         <img src={imageUrl} alt={name} className={styles.image} />

@@ -27,6 +27,21 @@ export function ActivityTable({ items }: ActivityTableProps) {
   const [showAll, setShowAll] = useState(false);
   const displayItems = showAll ? items : items.slice(0, 4);
 
+  function formatDateFull(date: Date) {
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  }
+
+  function formatDateMobile(date: Date) {
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    const yy = String(date.getFullYear()).slice(-2);
+    return `${mm}-${dd}-${yy}`;
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
@@ -66,13 +81,13 @@ export function ActivityTable({ items }: ActivityTableProps) {
                     <Link href={item.href} className={`${styles.cellLink} ${styles.cellLinkLeft}`}>
                       <div className={styles.nameCell}>
                         <Avatar name={item.userName} imageUrl={item.userProfileImageUrl} size={28} className={styles.avatarOverride} />
-                        <span className={styles.name}>{item.userName}</span>
+                        <span className={styles.name} data-tooltip={item.userName}>{item.userName}</span>
                       </div>
                     </Link>
                   </td>
                   <td className={styles.td}>
                     <Link href={item.href} className={`${styles.cellLink} ${styles.cellLinkCenter}`}>
-                      <span className={styles.projectName}>{item.projectName}</span>
+                      <span className={styles.projectName} data-tooltip={item.projectName}>{item.projectName}</span>
                     </Link>
                   </td>
                   <td className={styles.td}>
@@ -85,11 +100,8 @@ export function ActivityTable({ items }: ActivityTableProps) {
                   <td className={styles.td}>
                     <Link href={item.href} className={`${styles.cellLink} ${styles.cellLinkCenter}`}>
                       <span className={styles.date}>
-                        {new Date(item.date).toLocaleDateString('en-US', {
-                          month: 'short',
-                          day: 'numeric',
-                          year: 'numeric',
-                        })}
+                        <span className={styles.dateFull}>{formatDateFull(item.date)}</span>
+                        <span className={styles.dateMobile}>{formatDateMobile(item.date)}</span>
                       </span>
                     </Link>
                   </td>

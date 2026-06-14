@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { NotificationBell } from './NotificationBell';
 import { Loader2 } from 'lucide-react';
@@ -18,8 +18,32 @@ interface TopbarProps {
 export function Topbar({ title, subtitle, userName, userRole, userProfileImageUrl }: TopbarProps) {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
   const initials = userName.substring(0, 2).toUpperCase();
+
+  // Close avatar menu on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleNotifToggle = (open: boolean) => {
+    setNotifOpen(open);
+    if (open) setMenuOpen(false);
+  };
+
+  const handleMenuToggle = () => {
+    const next = !menuOpen;
+    setMenuOpen(next);
+    if (next) setNotifOpen(false);
+  };
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -35,9 +59,9 @@ export function Topbar({ title, subtitle, userName, userRole, userProfileImageUr
       </div>
       
       <div className={styles.actions}>
-        <NotificationBell />
+        <NotificationBell isOpen={notifOpen} onOpenChange={handleNotifToggle} />
 
-        <div className={styles.userMenu} onClick={() => setMenuOpen(!menuOpen)}>
+        <div className={styles.userMenu} ref={menuRef} onClick={handleMenuToggle}>
           <div className={styles.avatar}>
             {userProfileImageUrl ? (
               <img src={userProfileImageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
