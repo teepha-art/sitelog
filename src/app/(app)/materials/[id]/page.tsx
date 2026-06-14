@@ -39,7 +39,7 @@ export default async function MaterialRequestDetailPage({ params }: { params: Pr
         <h1 className={styles.pageTitle}>
           {request.materialName} ({request.quantity})
         </h1>
-        <div className={styles.subtitle} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div className={styles.subtitle}>
           <span>{request.project.projectName} • Requested by</span>
           <Avatar name={request.requester.fullName} imageUrl={request.requester.profileImageUrl} size={24} />
           <span>{request.requester.fullName} on {request.createdAt.toLocaleDateString()}</span>

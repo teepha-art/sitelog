@@ -5,6 +5,7 @@
 
 .header {
   margin-bottom: 24px;
+  padding-left: 32px;
 }
 
 .pageTitle {
@@ -14,7 +15,12 @@
 }
 
 .subtitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
   color: var(--color-on-surface-variant);
+  font-size: var(--font-body-small-font-size);
 }
 
 .card {
@@ -30,7 +36,7 @@
 
 .infoLabel {
   color: var(--color-on-surface-variant);
-  font-size: var(--font-label-small-font-size);
+  font-size: 11px;
   text-transform: uppercase;
   margin-bottom: 4px;
 }
@@ -57,4 +63,15 @@
 .statusUpdateTitle {
   font-family: var(--font-title-medium-font-family);
   margin-bottom: 16px;
+}
+
+@media (max-width: 767px) {
+  .pageTitle {
+    font-size: 18px;
+  }
+
+  .infoGrid {
+    gap: 16px;
+    margin-bottom: 24px;
+  }
 }

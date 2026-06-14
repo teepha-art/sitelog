@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/auth';
@@ -9,6 +8,7 @@ import { StatusChip } from '@/components/ui/StatusChip';
 import { Role } from '@prisma/client';
 import { SupervisorList } from './SupervisorList';
 import { ProjectActions } from './ProjectActions';
+import { ProjectTabs } from './ProjectTabs';
 import styles from './ProjectLayout.module.css';
 
 export default async function ProjectDetailLayout({
@@ -95,20 +95,7 @@ export default async function ProjectDetailLayout({
       </Card>
 
       {/* Tabs */}
-      <div className={styles.tabs}>
-        <Link href={`/projects/${id}`} className={styles.tabActive}>
-          Recent Activity
-        </Link>
-        <Link href={`/projects/${id}/reports`} className={styles.tab}>
-          Reports
-        </Link>
-        <Link href={`/projects/${id}/issues`} className={styles.tab}>
-          Issues
-        </Link>
-        <Link href={`/projects/${id}/materials`} className={styles.tab}>
-          Material Requests
-        </Link>
-      </div>
+      <ProjectTabs projectId={id} />
 
       {/* Content Area */}
       <div className={styles.content}>

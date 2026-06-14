@@ -39,7 +39,7 @@ export default async function ReportDetailPage({ params }: { params: Promise<{ i
         <h1 className={styles.pageTitle}>
           Daily Report: {report.project.projectName}
         </h1>
-        <div className={styles.subtitle} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div className={styles.subtitle}>
           <Avatar name={report.submitter.fullName} imageUrl={report.submitter.profileImageUrl} size={24} />
           <span>Submitted by {report.submitter.fullName} on {report.reportDate.toLocaleDateString()}</span>
         </div>

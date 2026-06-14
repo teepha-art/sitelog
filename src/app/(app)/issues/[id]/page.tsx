@@ -60,7 +60,7 @@ export default async function IssueDetailPage({ params }: { params: Promise<{ id
         <h1 className={styles.pageTitle}>
           {issue.title}
         </h1>
-        <div className={styles.subtitle} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div className={styles.subtitle}>
           <span>{issue.project.projectName} • Reported by</span>
           <Avatar name={issue.creator.fullName} imageUrl={issue.creator.profileImageUrl} size={24} />
           <span>{issue.creator.fullName} on {issue.createdAt.toLocaleDateString()}</span>
