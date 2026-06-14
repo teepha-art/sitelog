@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { NotificationBell } from './NotificationBell';
+import { Loader2 } from 'lucide-react';
 import styles from './Topbar.module.css';
 import { Role } from '@prisma/client';
 
@@ -17,9 +18,11 @@ interface TopbarProps {
 export function Topbar({ title, subtitle, userName, userRole, userProfileImageUrl }: TopbarProps) {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const initials = userName.substring(0, 2).toUpperCase();
 
   const handleLogout = async () => {
+    setIsLoggingOut(true);
     await fetch('/api/auth/logout', { method: 'POST' });
     router.push('/auth');
   };
@@ -66,8 +69,8 @@ export function Topbar({ title, subtitle, userName, userRole, userProfileImageUr
                   Profile
                 </button>
               )}
-              <button className={styles.dropdownItem} onClick={handleLogout}>
-                Log out
+              <button className={styles.dropdownItem} onClick={handleLogout} disabled={isLoggingOut}>
+                {isLoggingOut ? (<><Loader2 size={16} className={styles.logoutSpinner} /> Logging out...</>) : 'Log out'}
               </button>
             </div>
           )}

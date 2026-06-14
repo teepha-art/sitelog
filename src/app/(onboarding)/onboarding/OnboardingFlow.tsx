@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Hand, LayoutDashboard, Smartphone, CircleCheck, Check, ArrowRight } from 'lucide-react';
+import { Hand, LayoutDashboard, Smartphone, CircleCheck, Check, ArrowRight, Loader2 } from 'lucide-react';
 import { Role } from '@prisma/client';
 import styles from './OnboardingFlow.module.css';
 
@@ -125,7 +125,7 @@ export function OnboardingFlow({ fullName, role }: OnboardingFlowProps) {
             disabled={isCompleting}
           >
             {isCompleting
-              ? 'Please wait...'
+              ? (<><Loader2 size={20} className={styles.spinner} /> Please wait...</>)
               : (
                 <>
                   {step < steps.length - 1 ? 'Continue' : isPM ? 'Go to dashboard' : 'View my projects'}
