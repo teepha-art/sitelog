@@ -51,15 +51,10 @@ export function Topbar({ title, subtitle, userName, userRole, userProfileImageUr
             <div className={styles.dropdown}>
               {userRole === Role.project_manager ? (
                 <>
-                  <div className={styles.mobileOnlyItem}>
-                    <button className={styles.dropdownItem} onClick={() => router.push('/materials')}>
-                      Materials
-                    </button>
-                    <button className={styles.dropdownItem} onClick={() => router.push('/team')}>
-                      Team
-                    </button>
-                    <div className={styles.divider}></div>
-                  </div>
+                  <button className={styles.dropdownItem} onClick={() => router.push('/team')}>
+                    Team
+                  </button>
+                  <div className={styles.divider}></div>
                   <button className={styles.dropdownItem} onClick={() => router.push('/settings')}>
                     Settings
                   </button>

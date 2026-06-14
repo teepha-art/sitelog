@@ -243,6 +243,11 @@
   color: var(--color-on-primary-container);
 }
 
+.roleCardActive:hover {
+  background-color: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+}
+
 .backLink {
   font-family: var(--font-body-medium-font-family);
   font-size: var(--font-body-medium-font-size);

@@ -115,18 +115,11 @@
   100% { transform: rotate(360deg); }
 }
 
-.mobileOnlyItem {
-  display: block;
-}
-
 @media (min-width: 768px) {
   .topbar {
     padding: 20px 24px 16px 24px;
   }
   .name {
     display: block;
-  }
-  .mobileOnlyItem {
-    display: none;
   }
 }

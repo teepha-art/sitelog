@@ -13,8 +13,8 @@ interface BottomNavProps {
 export function BottomNav({ items }: BottomNavProps) {
   const pathname = usePathname();
   
-  // Show max 4 items on bottom nav
-  const displayItems = items.slice(0, 4);
+  // Show all items except Team on mobile bottom nav
+  const displayItems = items.filter(item => item.label !== 'Team');
 
   return (
     <nav className={styles.bottomNav}>
