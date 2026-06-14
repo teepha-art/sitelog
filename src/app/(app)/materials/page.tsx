@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/Card';
 import { StatusChip } from '@/components/ui/StatusChip';
 import { EmptyState } from '@/components/states/EmptyState';
 import { FilterBar, FilterDefinition } from '@/components/features/FilterBar';
+import { Avatar } from '@/components/ui/Avatar';
 import { REQUEST_STATUSES, PRIORITIES } from '@/lib/constants';
 import styles from './MaterialsPage.module.css';
 
@@ -36,7 +37,7 @@ export default async function MaterialsPage({ searchParams }: { searchParams: Pr
       },
       include: { 
         project: { select: { projectName: true } },
-        requester: { select: { fullName: true } }
+        requester: { select: { fullName: true, profileImageUrl: true } }
       },
       orderBy: { createdAt: 'desc' }
     });
@@ -48,7 +49,7 @@ export default async function MaterialsPage({ searchParams }: { searchParams: Pr
       },
       include: { 
         project: { select: { projectName: true } },
-        requester: { select: { fullName: true } }
+        requester: { select: { fullName: true, profileImageUrl: true } }
       },
       orderBy: { createdAt: 'desc' }
     });
@@ -122,7 +123,7 @@ export default async function MaterialsPage({ searchParams }: { searchParams: Pr
                 </div>
                 {!isSupervisor && (
                   <div className={styles.metaRow}>
-                    <svg className={styles.metaIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <Avatar name={req.requester.fullName} imageUrl={req.requester.profileImageUrl} size={20} className={styles.metaIconOverride} />
                     <span>Requested by: {req.requester.fullName}</span>
                   </div>
                 )}

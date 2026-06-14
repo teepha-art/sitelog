@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/auth';
 import { Card } from '@/components/ui/Card';
 import { EmptyState } from '@/components/states/EmptyState';
+import { Avatar } from '@/components/ui/Avatar';
 
 export default async function ProjectReportsTab({ params }: { params: Promise<{ id: string }> }) {
   const session = await getSession();
@@ -15,7 +16,7 @@ export default async function ProjectReportsTab({ params }: { params: Promise<{ 
 
   const reports = await prisma.dailyReport.findMany({
     where: { projectId: id },
-    include: { submitter: { select: { fullName: true } } },
+    include: { submitter: { select: { fullName: true, profileImageUrl: true } } },
     orderBy: { reportDate: 'desc' }
   });
 
@@ -38,8 +39,9 @@ export default async function ProjectReportsTab({ params }: { params: Promise<{ 
               }}>
                 {report.reportDate.toLocaleDateString()}
               </h3>
-              <div style={{ color: 'var(--color-on-surface-variant)', fontSize: 'var(--font-body-small-font-size)' }}>
-                By {report.submitter.fullName}
+              <div style={{ color: 'var(--color-on-surface-variant)', fontSize: 'var(--font-body-small-font-size)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Avatar name={report.submitter.fullName} imageUrl={report.submitter.profileImageUrl} size={20} />
+                <span>By {report.submitter.fullName}</span>
               </div>
             </div>
             

@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { Role } from '@prisma/client';
 import { Card } from '@/components/ui/Card';
 import { EmptyState } from '@/components/states/EmptyState';
+import { Avatar } from '@/components/ui/Avatar';
 
 export default async function TeamPage() {
   const session = await getSession();
@@ -35,6 +36,7 @@ export default async function TeamPage() {
       <h1 style={{ 
         fontFamily: 'var(--font-headline-medium-font-family)', 
         fontSize: 'var(--font-headline-medium-font-size)',
+        fontWeight: '700',
         marginBottom: '24px'
       }}>
         Team Overview
@@ -47,13 +49,7 @@ export default async function TeamPage() {
           {teamMembers.map((member) => (
             <Card key={member.id} padding="md">
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
-                <div style={{
-                  width: '40px', height: '40px', borderRadius: '50%',
-                  backgroundColor: 'var(--color-primary-container)', color: 'var(--color-on-primary-container)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold'
-                }}>
-                  {member.fullName.substring(0, 2).toUpperCase()}
-                </div>
+                <Avatar name={member.fullName} imageUrl={member.profileImageUrl} size={40} />
                 <div>
                   <h3 style={{ margin: '0 0 4px 0' }}>{member.fullName}</h3>
                   <div style={{ color: 'var(--color-on-surface-variant)', fontSize: 'var(--font-body-small-font-size)' }}>{member.email}</div>

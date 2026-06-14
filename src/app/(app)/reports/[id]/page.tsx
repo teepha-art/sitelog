@@ -4,6 +4,7 @@ import { getSession } from '@/lib/auth';
 import { notFound } from 'next/navigation';
 import { Card } from '@/components/ui/Card';
 import { Role } from '@prisma/client';
+import { Avatar } from '@/components/ui/Avatar';
 import styles from './ReportDetail.module.css';
 
 export default async function ReportDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -16,7 +17,7 @@ export default async function ReportDetailPage({ params }: { params: Promise<{ i
     where: { id },
     include: {
       project: true,
-      submitter: { select: { fullName: true } },
+      submitter: { select: { fullName: true, profileImageUrl: true } },
       attachments: { where: { isDeleted: false } }
     }
   });
@@ -38,9 +39,10 @@ export default async function ReportDetailPage({ params }: { params: Promise<{ i
         <h1 className={styles.pageTitle}>
           Daily Report: {report.project.projectName}
         </h1>
-        <p className={styles.subtitle}>
-          Submitted by {report.submitter.fullName} on {report.reportDate.toLocaleDateString()}
-        </p>
+        <div className={styles.subtitle} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Avatar name={report.submitter.fullName} imageUrl={report.submitter.profileImageUrl} size={24} />
+          <span>Submitted by {report.submitter.fullName} on {report.reportDate.toLocaleDateString()}</span>
+        </div>
       </div>
 
       <Card padding="lg" className={styles.card}>

@@ -15,7 +15,7 @@
 /* Status variants mapped to semantic colors */
 .success {
   background-color: var(--color-success-container);
-  color: var(--color-on-success);
+  color: var(--color-on-success-container);
 }
 
 .warning {

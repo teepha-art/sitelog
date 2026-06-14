@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/Card';
 import { StatusChip } from '@/components/ui/StatusChip';
 import { EmptyState } from '@/components/states/EmptyState';
 import { FilterBar, FilterDefinition } from '@/components/features/FilterBar';
+import { Avatar } from '@/components/ui/Avatar';
 import { ISSUE_STATUSES, PRIORITIES } from '@/lib/constants';
 import styles from './IssuesPage.module.css';
 
@@ -36,8 +37,8 @@ export default async function IssuesPage({ searchParams }: { searchParams: Promi
       },
       include: { 
         project: { select: { projectName: true } },
-        creator: { select: { fullName: true } },
-        assignee: { select: { fullName: true } }
+        creator: { select: { fullName: true, profileImageUrl: true } },
+        assignee: { select: { fullName: true, profileImageUrl: true } }
       },
       orderBy: { createdAt: 'desc' }
     });
@@ -49,8 +50,8 @@ export default async function IssuesPage({ searchParams }: { searchParams: Promi
       },
       include: { 
         project: { select: { projectName: true } },
-        creator: { select: { fullName: true } },
-        assignee: { select: { fullName: true } }
+        creator: { select: { fullName: true, profileImageUrl: true } },
+        assignee: { select: { fullName: true, profileImageUrl: true } }
       },
       orderBy: { createdAt: 'desc' }
     });
@@ -121,12 +122,12 @@ export default async function IssuesPage({ searchParams }: { searchParams: Promi
                   <span>Priority: {issue.priority.charAt(0).toUpperCase() + issue.priority.slice(1)}</span>
                 </div>
                 <div className={styles.metaRow}>
-                  <svg className={styles.metaIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                  <Avatar name={issue.creator.fullName} imageUrl={issue.creator.profileImageUrl} size={20} className={styles.metaIconOverride} />
                   <span>Reported by: {issue.creator.fullName}</span>
                 </div>
                 {!isSupervisor && issue.assignee && (
                   <div className={styles.metaRow}>
-                    <svg className={styles.metaIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+                    <Avatar name={issue.assignee.fullName} imageUrl={issue.assignee.profileImageUrl} size={20} className={styles.metaIconOverride} />
                     <span>Assigned to: {issue.assignee.fullName}</span>
                   </div>
                 )}

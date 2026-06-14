@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { Card } from '@/components/ui/Card';
 import { StatusChip } from '@/components/ui/StatusChip';
 import { Role } from '@prisma/client';
+import { Avatar } from '@/components/ui/Avatar';
 import StatusUpdateForm from './StatusUpdateForm';
 import styles from './MaterialDetail.module.css';
 
@@ -18,7 +19,7 @@ export default async function MaterialRequestDetailPage({ params }: { params: Pr
     where: { id },
     include: {
       project: true,
-      requester: { select: { fullName: true } }
+      requester: { select: { fullName: true, profileImageUrl: true } }
     }
   });
 
@@ -38,9 +39,11 @@ export default async function MaterialRequestDetailPage({ params }: { params: Pr
         <h1 className={styles.pageTitle}>
           {request.materialName} ({request.quantity})
         </h1>
-        <p className={styles.subtitle}>
-          {request.project.projectName} • Requested by {request.requester.fullName} on {request.createdAt.toLocaleDateString()}
-        </p>
+        <div className={styles.subtitle} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span>{request.project.projectName} • Requested by</span>
+          <Avatar name={request.requester.fullName} imageUrl={request.requester.profileImageUrl} size={24} />
+          <span>{request.requester.fullName} on {request.createdAt.toLocaleDateString()}</span>
+        </div>
       </div>
 
       <Card padding="lg" className={styles.card}>

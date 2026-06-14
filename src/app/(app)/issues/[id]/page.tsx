@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { Card } from '@/components/ui/Card';
 import { StatusChip } from '@/components/ui/StatusChip';
 import { Role } from '@prisma/client';
+import { Avatar } from '@/components/ui/Avatar';
 
 // We need a tiny client component for the status update form
 import StatusUpdateForm from './StatusUpdateForm';
@@ -20,8 +21,8 @@ export default async function IssueDetailPage({ params }: { params: Promise<{ id
     where: { id },
     include: {
       project: true,
-      creator: { select: { fullName: true } },
-      assignee: { select: { fullName: true, id: true } },
+      creator: { select: { fullName: true, profileImageUrl: true } },
+      assignee: { select: { fullName: true, id: true, profileImageUrl: true } },
       attachments: { where: { isDeleted: false } }
     }
   });
@@ -59,9 +60,11 @@ export default async function IssueDetailPage({ params }: { params: Promise<{ id
         <h1 className={styles.pageTitle}>
           {issue.title}
         </h1>
-        <p className={styles.subtitle}>
-          {issue.project.projectName} • Reported by {issue.creator.fullName} on {issue.createdAt.toLocaleDateString()}
-        </p>
+        <div className={styles.subtitle} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span>{issue.project.projectName} • Reported by</span>
+          <Avatar name={issue.creator.fullName} imageUrl={issue.creator.profileImageUrl} size={24} />
+          <span>{issue.creator.fullName} on {issue.createdAt.toLocaleDateString()}</span>
+        </div>
       </div>
 
       <Card padding="lg" className={styles.card}>
@@ -76,7 +79,14 @@ export default async function IssueDetailPage({ params }: { params: Promise<{ id
           </div>
           <div>
             <div className={styles.infoLabel}>Assigned To</div>
-            <div>{issue.assignee ? issue.assignee.fullName : 'Unassigned'}</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              {issue.assignee ? (
+                <>
+                  <Avatar name={issue.assignee.fullName} imageUrl={issue.assignee.profileImageUrl} size={20} />
+                  <span>{issue.assignee.fullName}</span>
+                </>
+              ) : 'Unassigned'}
+            </div>
           </div>
         </div>
 

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import type { ActivityItem } from '@/lib/activity';
+import { Avatar } from '@/components/ui/Avatar';
 import styles from './ActivityTable.module.css';
 
 interface ActivityTableProps {
@@ -21,9 +22,6 @@ const TYPE_COLORS: Record<string, string> = {
   material_request: styles.pillRequest,
 };
 
-function getInitials(name: string): string {
-  return name.substring(0, 2).toUpperCase();
-}
 
 export function ActivityTable({ items }: ActivityTableProps) {
   const [showAll, setShowAll] = useState(false);
@@ -50,10 +48,10 @@ export function ActivityTable({ items }: ActivityTableProps) {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th className={styles.th}>Name</th>
-              <th className={styles.th}>Project</th>
-              <th className={styles.th}>Activity</th>
-              <th className={styles.th}>Date</th>
+              <th className={`${styles.th} ${styles.alignLeft}`}>Name</th>
+              <th className={`${styles.th} ${styles.alignCenter}`}>Project</th>
+              <th className={`${styles.th} ${styles.alignCenter}`}>Activity</th>
+              <th className={`${styles.th} ${styles.alignCenter}`}>Date</th>
             </tr>
           </thead>
           <tbody>
@@ -65,27 +63,27 @@ export function ActivityTable({ items }: ActivityTableProps) {
               displayItems.map((item, i) => (
                 <tr key={`${item.id}-${i}`} className={styles.row}>
                   <td className={styles.td}>
-                    <Link href={item.href} className={styles.cellLink}>
+                    <Link href={item.href} className={`${styles.cellLink} ${styles.cellLinkLeft}`}>
                       <div className={styles.nameCell}>
-                        <span className={styles.avatar}>{getInitials(item.userName)}</span>
+                        <Avatar name={item.userName} imageUrl={item.userProfileImageUrl} size={28} className={styles.avatarOverride} />
                         <span className={styles.name}>{item.userName}</span>
                       </div>
                     </Link>
                   </td>
                   <td className={styles.td}>
-                    <Link href={item.href} className={styles.cellLink}>
+                    <Link href={item.href} className={`${styles.cellLink} ${styles.cellLinkCenter}`}>
                       <span className={styles.projectName}>{item.projectName}</span>
                     </Link>
                   </td>
                   <td className={styles.td}>
-                    <Link href={item.href} className={styles.cellLink}>
+                    <Link href={item.href} className={`${styles.cellLink} ${styles.cellLinkCenter}`}>
                       <span className={`${styles.pill} ${TYPE_COLORS[item.type] || ''}`}>
                         {TYPE_LABELS[item.type] || item.type}
                       </span>
                     </Link>
                   </td>
                   <td className={styles.td}>
-                    <Link href={item.href} className={styles.cellLink}>
+                    <Link href={item.href} className={`${styles.cellLink} ${styles.cellLinkCenter}`}>
                       <span className={styles.date}>
                         {new Date(item.date).toLocaleDateString('en-US', {
                           month: 'short',

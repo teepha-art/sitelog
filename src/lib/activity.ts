@@ -6,6 +6,7 @@ export interface ActivityItem {
   title: string;
   description: string;
   userName: string;
+  userProfileImageUrl?: string | null;
   date: Date;
   projectId: string;
   projectName: string;
@@ -28,7 +29,7 @@ export async function getRecentActivity(userId: string, projectId?: string): Pro
       where: { project: projectWhere },
       include: {
         project: { select: { projectName: true } },
-        submitter: { select: { fullName: true } },
+        submitter: { select: { fullName: true, profileImageUrl: true } },
       },
       orderBy: { createdAt: 'desc' },
       take: 10,
@@ -37,7 +38,7 @@ export async function getRecentActivity(userId: string, projectId?: string): Pro
       where: { project: projectWhere },
       include: {
         project: { select: { projectName: true } },
-        creator: { select: { fullName: true } },
+        creator: { select: { fullName: true, profileImageUrl: true } },
       },
       orderBy: { createdAt: 'desc' },
       take: 10,
@@ -46,7 +47,7 @@ export async function getRecentActivity(userId: string, projectId?: string): Pro
       where: { project: projectWhere, status: 'approved' },
       include: {
         project: { select: { projectName: true } },
-        requester: { select: { fullName: true } },
+        requester: { select: { fullName: true, profileImageUrl: true } },
       },
       orderBy: { updatedAt: 'desc' },
       take: 10,
@@ -60,6 +61,7 @@ export async function getRecentActivity(userId: string, projectId?: string): Pro
       title: 'Report Submitted',
       description: `Daily report for ${r.reportDate.toLocaleDateString()}`,
       userName: r.submitter.fullName,
+      userProfileImageUrl: r.submitter.profileImageUrl,
       date: r.createdAt,
       projectId: r.projectId,
       projectName: r.project.projectName,
@@ -71,6 +73,7 @@ export async function getRecentActivity(userId: string, projectId?: string): Pro
       title: `Issue ${i.status === 'resolved' ? 'Resolved' : 'Reported'}`,
       description: i.title,
       userName: i.creator.fullName,
+      userProfileImageUrl: i.creator.profileImageUrl,
       date: i.status === 'resolved' ? i.updatedAt : i.createdAt,
       projectId: i.projectId,
       projectName: i.project.projectName,
@@ -82,6 +85,7 @@ export async function getRecentActivity(userId: string, projectId?: string): Pro
       title: 'Request Approved',
       description: `${req.quantity}x ${req.materialName}`,
       userName: req.requester.fullName,
+      userProfileImageUrl: req.requester.profileImageUrl,
       date: req.updatedAt,
       projectId: req.projectId,
       projectName: req.project.projectName,

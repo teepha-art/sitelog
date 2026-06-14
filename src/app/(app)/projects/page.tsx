@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { StatusChip } from '@/components/ui/StatusChip';
 import { EmptyState } from '@/components/states/EmptyState';
+import { Avatar, AvatarStack } from '@/components/ui/Avatar';
 import { PROJECT_STATUSES } from '@/lib/constants';
 import styles from './ProjectsPage.module.css';
 
@@ -30,7 +31,11 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Pro
         ]
       },
       include: {
-        manager: { select: { fullName: true } },
+        manager: { select: { fullName: true, profileImageUrl: true } },
+        memberships: {
+          select: { user: { select: { fullName: true, profileImageUrl: true } } },
+          take: 3
+        },
         _count: { select: { memberships: true } }
       },
       orderBy: { createdAt: 'desc' }
@@ -42,7 +47,11 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Pro
         memberships: { some: { userId: session.userId } }
       },
       include: {
-        manager: { select: { fullName: true } },
+        manager: { select: { fullName: true, profileImageUrl: true } },
+        memberships: {
+          select: { user: { select: { fullName: true, profileImageUrl: true } } },
+          take: 3
+        },
         _count: { select: { memberships: true } }
       },
       orderBy: { createdAt: 'desc' }
@@ -51,14 +60,11 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Pro
 
   const header = (
     <div className={styles.header}>
-      <h1 className={styles.pageTitle}>
-        {isPM ? 'Projects' : 'My Projects'}
-      </h1>
-      {isPM && (
-        <Link href="/projects/new">
+      {isPM ? (
+        <Link href="/projects/new" style={{ marginLeft: 'auto' }}>
           <Button>Create Project</Button>
         </Link>
-      )}
+      ) : null}
     </div>
   );
 
@@ -107,11 +113,15 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Pro
                   <span>{project.location}</span>
                 </div>
                 <div className={styles.metaRow}>
-                  <svg className={styles.metaIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                  <Avatar name={project.manager.fullName} imageUrl={project.manager.profileImageUrl} size={20} className={styles.metaIconOverride} />
                   <span>{project.manager.fullName} (PM)</span>
                 </div>
                 <div className={styles.metaRow}>
-                  <svg className={styles.metaIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                  <AvatarStack 
+                    users={project.memberships.map(m => m.user)} 
+                    totalCount={project._count.memberships} 
+                    size={20} 
+                  />
                   <span>{project._count.memberships} team members</span>
                 </div>
               </div>
