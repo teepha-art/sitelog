@@ -3,7 +3,7 @@
 }
 
 .bell {
-  background: none;
+  background-color: var(--color-surface-container-low);
   border: none;
   cursor: pointer;
   color: var(--color-on-surface-variant);

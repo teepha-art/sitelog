@@ -1,41 +1,78 @@
 .card {
-  display: block;
+  display: flex;
+  flex-direction: column;
   text-decoration: none;
   background-color: var(--color-surface);
-  border: 1px solid var(--color-outline-variant);
   border-radius: 12px;
-  padding: 24px;
-  transition: all 0.2s ease;
+  padding: 20px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
   min-width: 150px;
   flex: 1;
 }
 
 .card:hover {
-  background-color: var(--color-surface-variant);
-  border-color: var(--color-outline);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.accent {
+  background-color: var(--color-primary-container);
+}
+
+.accent:hover {
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--color-primary-container) 40%, transparent);
+}
+
+.accent .iconWrap {
+  background-color: var(--color-surface-container-low);
+  color: var(--color-on-primary-container);
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.iconWrap {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background-color: var(--color-surface-container-low);
+  color: var(--color-on-surface);
+}
+
+.iconWrap svg {
+  width: 16px;
+  height: 16px;
 }
 
 .label {
-  font-family: var(--font-title-medium-font-family);
-  font-size: var(--font-title-medium-font-size);
+  font-family: var(--font-body-medium-font-family);
+  font-size: var(--font-body-medium-font-size);
+  font-weight: 500;
   color: var(--color-on-surface-variant);
-  margin-bottom: 12px;
+  white-space: nowrap;
+}
+
+.accentLabel {
+  color: var(--color-on-primary-container);
 }
 
 .value {
-  font-family: var(--font-display-small-font-family);
-  font-size: var(--font-display-small-font-size);
-  font-weight: var(--font-display-small-font-weight);
+  font-family: var(--font-headline-small-font-family);
+  font-size: var(--font-headline-small-font-size);
+  font-weight: var(--font-headline-small-font-weight);
   color: var(--color-on-surface);
-  margin: 0;
+  line-height: 1;
+  padding-left: 6px;
 }
 
-.warning .value {
-  color: var(--color-warning);
-}
-
-.error .value {
-  color: var(--color-error);
+.accentValue {
+  color: var(--color-on-primary-container);
 }

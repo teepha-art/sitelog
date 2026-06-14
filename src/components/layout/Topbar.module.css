@@ -2,13 +2,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
-  padding: 0 16px;
-  background-color: var(--color-surface);
-  border-bottom: 1px solid var(--color-outline-variant);
+  min-height: 80px;
+  padding: 16px 16px 16px 16px;
+  background-color: var(--color-surface-container);
   position: sticky;
   top: 0;
   z-index: 10;
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .title {
@@ -17,6 +22,13 @@
   font-size: var(--font-headline-small-font-size);
   color: var(--color-on-surface);
   margin: 0;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-family: var(--font-body-small-font-family);
+  font-size: var(--font-body-small-font-size);
+  color: color-mix(in srgb, var(--color-on-surface-variant) 60%, transparent);
 }
 
 .actions {
@@ -82,7 +94,7 @@
 
 @media (min-width: 768px) {
   .topbar {
-    padding: 0 24px;
+    padding: 16px 24px 16px 24px;
   }
   .name {
     display: block;

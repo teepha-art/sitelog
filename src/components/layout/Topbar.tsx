@@ -8,12 +8,13 @@ import { Role } from '@prisma/client';
 
 interface TopbarProps {
   title: string;
+  subtitle?: string;
   userName: string;
   userRole: Role;
   userProfileImageUrl: string | null;
 }
 
-export function Topbar({ title, userName, userRole, userProfileImageUrl }: TopbarProps) {
+export function Topbar({ title, subtitle, userName, userRole, userProfileImageUrl }: TopbarProps) {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const initials = userName.substring(0, 2).toUpperCase();
@@ -21,12 +22,14 @@ export function Topbar({ title, userName, userRole, userProfileImageUrl }: Topba
   const handleLogout = async () => {
     await fetch('/api/auth/logout', { method: 'POST' });
     router.push('/auth');
-    router.refresh();
   };
 
   return (
     <header className={styles.topbar}>
-      <h1 className={styles.title}>{title}</h1>
+      <div className={styles.titleArea}>
+        <h1 className={styles.title}>{title}</h1>
+        {subtitle && <span className={styles.subtitle}>{subtitle}</span>}
+      </div>
       
       <div className={styles.actions}>
         <NotificationBell />

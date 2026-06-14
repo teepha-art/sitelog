@@ -50,6 +50,11 @@ export function AppShell({ children, userRole, userName, userProfileImageUrl }: 
     pageTitle = matchingItem.label;
   }
 
+  // Date subtitle for dashboard
+  const subtitle = pathname === '/dashboard'
+    ? new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+    : undefined;
+
   const homeHref = userRole === Role.project_manager ? '/dashboard' : '/projects';
 
   return (
@@ -59,7 +64,7 @@ export function AppShell({ children, userRole, userName, userProfileImageUrl }: 
       </div>
       
       <div className={styles.main}>
-        <Topbar title={pageTitle} userName={userName} userRole={userRole} userProfileImageUrl={userProfileImageUrl} />
+        <Topbar title={pageTitle} subtitle={subtitle} userName={userName} userRole={userRole} userProfileImageUrl={userProfileImageUrl} />
         
         <main className={styles.content}>
           {children}

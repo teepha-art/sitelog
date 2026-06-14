@@ -5,6 +5,7 @@ export interface ActivityItem {
   type: 'report' | 'issue' | 'material_request';
   title: string;
   description: string;
+  userName: string;
   date: Date;
   projectId: string;
   projectName: string;
@@ -12,9 +13,6 @@ export interface ActivityItem {
 }
 
 export async function getRecentActivity(userId: string, projectId?: string): Promise<ActivityItem[]> {
-  // We need to fetch recent reports, issues, and approved material requests
-  // that belong to the user's scope.
-  
   const projectFilter = projectId ? { id: projectId } : {};
   const userScopeFilter = {
     OR: [
@@ -28,21 +26,30 @@ export async function getRecentActivity(userId: string, projectId?: string): Pro
   const [reports, issues, requests] = await Promise.all([
     prisma.dailyReport.findMany({
       where: { project: projectWhere },
-      include: { project: { select: { projectName: true } } },
+      include: {
+        project: { select: { projectName: true } },
+        submitter: { select: { fullName: true } },
+      },
       orderBy: { createdAt: 'desc' },
-      take: 5,
+      take: 10,
     }),
     prisma.issue.findMany({
       where: { project: projectWhere },
-      include: { project: { select: { projectName: true } } },
+      include: {
+        project: { select: { projectName: true } },
+        creator: { select: { fullName: true } },
+      },
       orderBy: { createdAt: 'desc' },
-      take: 5,
+      take: 10,
     }),
     prisma.materialRequest.findMany({
       where: { project: projectWhere, status: 'approved' },
-      include: { project: { select: { projectName: true } } },
-      orderBy: { updatedAt: 'desc' }, // Use updatedAt because it reflects when it was approved
-      take: 5,
+      include: {
+        project: { select: { projectName: true } },
+        requester: { select: { fullName: true } },
+      },
+      orderBy: { updatedAt: 'desc' },
+      take: 10,
     })
   ]);
 
@@ -52,6 +59,7 @@ export async function getRecentActivity(userId: string, projectId?: string): Pro
       type: 'report' as const,
       title: 'Report Submitted',
       description: `Daily report for ${r.reportDate.toLocaleDateString()}`,
+      userName: r.submitter.fullName,
       date: r.createdAt,
       projectId: r.projectId,
       projectName: r.project.projectName,
@@ -62,6 +70,7 @@ export async function getRecentActivity(userId: string, projectId?: string): Pro
       type: 'issue' as const,
       title: `Issue ${i.status === 'resolved' ? 'Resolved' : 'Reported'}`,
       description: i.title,
+      userName: i.creator.fullName,
       date: i.status === 'resolved' ? i.updatedAt : i.createdAt,
       projectId: i.projectId,
       projectName: i.project.projectName,
@@ -72,6 +81,7 @@ export async function getRecentActivity(userId: string, projectId?: string): Pro
       type: 'material_request' as const,
       title: 'Request Approved',
       description: `${req.quantity}x ${req.materialName}`,
+      userName: req.requester.fullName,
       date: req.updatedAt,
       projectId: req.projectId,
       projectName: req.project.projectName,
@@ -79,8 +89,7 @@ export async function getRecentActivity(userId: string, projectId?: string): Pro
     }))
   ];
 
-  // Sort by date descending and take top 5
   return activityItems
     .sort((a, b) => b.date.getTime() - a.date.getTime())
-    .slice(0, 5);
+    .slice(0, 10);
 }
