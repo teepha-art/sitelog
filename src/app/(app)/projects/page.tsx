@@ -60,6 +60,7 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Pro
 
   const header = (
     <div className={styles.header}>
+      <h2 className={styles.sectionTitle}>All Projects</h2>
       {isPM ? (
         <Link href="/projects/new" style={{ marginLeft: 'auto' }}>
           <Button>Create Project</Button>

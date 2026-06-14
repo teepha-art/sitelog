@@ -88,9 +88,9 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
 
   const header = (
     <div className={styles.header}>
-      <h1 className={styles.pageTitle}>
-        {isSupervisor ? 'My Reports' : 'Reports'}
-      </h1>
+      <h2 className={styles.sectionTitle}>
+        {isSupervisor ? 'My Reports' : 'All Reports'}
+      </h2>
       {isSupervisor && (
         <Link href="/reports/new">
           <Button>Submit Report</Button>

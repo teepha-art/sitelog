@@ -13,7 +13,7 @@
 .title {
   font-family: var(--font-title-large-font-family);
   font-size: var(--font-title-large-font-size);
-  font-weight: var(--font-title-large-font-weight);
+  font-weight: 700;
   line-height: 1.3;
   color: var(--color-on-surface);
   margin: 0;

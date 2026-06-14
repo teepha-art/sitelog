@@ -72,9 +72,9 @@ export default async function MaterialsPage({ searchParams }: { searchParams: Pr
 
   const header = (
     <div className={styles.header}>
-      <h1 className={styles.pageTitle}>
-        {isSupervisor ? 'My Requests' : 'Material Requests'}
-      </h1>
+      <h2 className={styles.sectionTitle}>
+        {isSupervisor ? 'My Requests' : 'All Requests'}
+      </h2>
       {isSupervisor && (
         <Link href="/materials/new">
           <Button>Request Materials</Button>

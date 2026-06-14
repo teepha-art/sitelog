@@ -74,9 +74,9 @@ export default async function IssuesPage({ searchParams }: { searchParams: Promi
 
   const header = (
     <div className={styles.header}>
-      <h1 className={styles.pageTitle}>
-        {isSupervisor ? 'My Issues' : 'Issues'}
-      </h1>
+      <h2 className={styles.sectionTitle}>
+        {isSupervisor ? 'My Issues' : 'All Issues'}
+      </h2>
       <Link href="/issues/new">
         <Button>Report Issue</Button>
       </Link>

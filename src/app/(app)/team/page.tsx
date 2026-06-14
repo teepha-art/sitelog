@@ -33,14 +33,15 @@ export default async function TeamPage() {
 
   return (
     <div>
-      <h1 style={{ 
-        fontFamily: 'var(--font-headline-medium-font-family)', 
-        fontSize: 'var(--font-headline-medium-font-size)',
+      <h2 style={{ 
+        fontFamily: 'var(--font-title-large-font-family)', 
+        fontSize: 'var(--font-title-large-font-size)',
         fontWeight: '700',
-        marginBottom: '24px'
+        color: 'var(--color-on-surface)',
+        margin: '0 0 24px 0'
       }}>
-        Team Overview
-      </h1>
+        Team Members
+      </h2>
       
       {teamMembers.length === 0 ? (
         <EmptyState message="You haven't assigned any supervisors to your projects yet." />
@@ -51,7 +52,12 @@ export default async function TeamPage() {
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
                 <Avatar name={member.fullName} imageUrl={member.profileImageUrl} size={40} />
                 <div>
-                  <h3 style={{ margin: '0 0 4px 0' }}>{member.fullName}</h3>
+                  <h3 style={{ 
+                    fontFamily: 'var(--font-title-medium-font-family)',
+                    fontSize: 'var(--font-title-medium-font-size)',
+                    fontWeight: '700',
+                    margin: '0 0 4px 0' 
+                  }}>{member.fullName}</h3>
                   <div style={{ color: 'var(--color-on-surface-variant)', fontSize: 'var(--font-body-small-font-size)' }}>{member.email}</div>
                 </div>
               </div>

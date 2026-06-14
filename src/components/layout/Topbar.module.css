@@ -17,9 +17,9 @@
 }
 
 .title {
-  font-family: var(--font-headline-small-font-family);
+  font-family: var(--font-headline-medium-font-family);
   font-weight: 700;
-  font-size: var(--font-headline-small-font-size);
+  font-size: var(--font-headline-medium-font-size);
   color: var(--color-on-surface);
   margin: 0;
   line-height: 1.2;
