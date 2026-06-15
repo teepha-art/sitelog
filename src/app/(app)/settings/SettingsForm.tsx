@@ -3,6 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { PasswordInput } from '@/components/ui/PasswordInput';
 import { Card } from '@/components/ui/Card';
 import { updateProfile, changePassword } from '@/lib/actions/profile';
 import { MAX_FILE_SIZE_BYTES, ACCEPTED_IMAGE_TYPES } from '@/lib/constants';
@@ -189,8 +190,8 @@ export function SettingsForm({ user }: { user: { fullName: string; email: string
         )}
 
         <form onSubmit={handlePasswordSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <Input label="Current Password" type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} required disabled={isPasswordLoading} />
-          <Input label="New Password" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required disabled={isPasswordLoading} />
+          <PasswordInput label="Current Password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} required disabled={isPasswordLoading} autoComplete="current-password" />
+          <PasswordInput label="New Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required disabled={isPasswordLoading} autoComplete="new-password" />
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button type="submit" loading={isPasswordLoading}>Change Password</Button>
           </div>
