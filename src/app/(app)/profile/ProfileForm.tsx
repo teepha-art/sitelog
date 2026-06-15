@@ -135,7 +135,7 @@ export function ProfileForm({ user }: { user: { fullName: string; email: string;
         <div>
           <div style={{ color: 'var(--color-on-surface-variant)', fontSize: 'var(--font-label-small-font-size)', textTransform: 'uppercase', marginBottom: '4px' }}>Role</div>
           <div style={{ fontSize: 'var(--font-title-medium-font-size)' }}>
-            {user.role === 'project_manager' ? 'Project Manager' : 'Site Supervisor'}
+            {{ project_manager: 'Project Manager', site_supervisor: 'Site Supervisor' }[user.role]}
           </div>
         </div>
         <div>
