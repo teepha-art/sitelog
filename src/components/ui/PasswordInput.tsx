@@ -45,7 +45,7 @@ export function PasswordInput({
           value={value}
           onChange={onChange}
           className={`${styles.input} ${error ? styles.inputError : ''}`}
-          placeholder={placeholder || `Enter ${label.toLowerCase()}`}
+          placeholder={placeholder}
           autoComplete={autoComplete}
           required={required}
           disabled={disabled}
@@ -60,7 +60,7 @@ export function PasswordInput({
             aria-label={showPassword ? 'Hide password' : 'Show password'}
             tabIndex={-1}
           >
-            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
           </button>
         )}
       </div>
