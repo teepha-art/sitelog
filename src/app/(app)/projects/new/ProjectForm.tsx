@@ -46,9 +46,13 @@ export function ProjectForm() {
 
         <Input label="Location" name="location" required disabled={isLoading} />
 
-        <Input label="Start Date" name="startDate" type="date" required disabled={isLoading} />
+        <div className={styles.dateInputWrapper}>
+          <Input label="Start Date" name="startDate" type="date" required disabled={isLoading} />
+        </div>
 
-        <Input label="Expected End Date" name="expectedEndDate" type="date" required disabled={isLoading} />
+        <div className={styles.dateInputWrapper}>
+          <Input label="Expected End Date" name="expectedEndDate" type="date" required disabled={isLoading} />
+        </div>
 
         <div className={styles.actions}>
           <Button type="button" variant="ghost" onClick={() => router.back()} disabled={isLoading}>
