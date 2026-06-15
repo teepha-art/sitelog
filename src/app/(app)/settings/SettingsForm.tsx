@@ -7,7 +7,12 @@ import { Card } from '@/components/ui/Card';
 import { updateProfile, changePassword } from '@/lib/actions/profile';
 import { MAX_FILE_SIZE_BYTES, ACCEPTED_IMAGE_TYPES } from '@/lib/constants';
 
-export function SettingsForm({ user }: { user: { fullName: string; email: string; profileImageUrl: string | null } }) {
+const ROLE_LABELS: Record<string, string> = {
+  project_manager: 'Project Manager',
+  site_supervisor: 'Site Supervisor',
+};
+
+export function SettingsForm({ user }: { user: { fullName: string; email: string; role: string; createdAt: Date; profileImageUrl: string | null } }) {
   const [fullName, setFullName] = useState(user.fullName);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -92,8 +97,6 @@ export function SettingsForm({ user }: { user: { fullName: string; email: string
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       <Card padding="lg">
-        <h2 style={{ fontFamily: 'var(--font-title-large-font-family)', marginBottom: '24px' }}>Account Details</h2>
-        
         {profileSuccess && (
           <div style={{ padding: '12px', backgroundColor: 'var(--color-success-container)', color: 'var(--color-on-success-container)', borderRadius: '8px', marginBottom: '24px' }}>
             Profile updated successfully.
@@ -156,6 +159,14 @@ export function SettingsForm({ user }: { user: { fullName: string; email: string
           <div>
             <div style={{ color: 'var(--color-on-surface-variant)', fontSize: 'var(--font-label-small-font-size)', textTransform: 'uppercase', marginBottom: '4px' }}>Email</div>
             <div style={{ fontSize: 'var(--font-title-medium-font-size)' }}>{user.email}</div>
+          </div>
+          <div>
+            <div style={{ color: 'var(--color-on-surface-variant)', fontSize: 'var(--font-label-small-font-size)', textTransform: 'uppercase', marginBottom: '4px' }}>Role</div>
+            <div style={{ fontSize: 'var(--font-title-medium-font-size)' }}>{ROLE_LABELS[user.role]}</div>
+          </div>
+          <div>
+            <div style={{ color: 'var(--color-on-surface-variant)', fontSize: 'var(--font-label-small-font-size)', textTransform: 'uppercase', marginBottom: '4px' }}>Account Created</div>
+            <div style={{ fontSize: 'var(--font-title-medium-font-size)' }}>{user.createdAt.toLocaleDateString()}</div>
           </div>
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button type="submit" loading={isProfileLoading}>Save Changes</Button>

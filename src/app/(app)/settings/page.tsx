@@ -30,7 +30,7 @@ export default async function SettingsPage() {
         </h1>
       </div>
       
-      <SettingsForm user={{ fullName: user.fullName, email: user.email, profileImageUrl: user.profileImageUrl }} />
+      <SettingsForm user={{ fullName: user.fullName, email: user.email, role: user.role, createdAt: user.createdAt, profileImageUrl: user.profileImageUrl }} />
     </div>
   );
 }
