@@ -48,7 +48,11 @@ export function Topbar({ title, subtitle, userName, userRole, userProfileImageUr
   const handleLogout = async () => {
     setIsLoggingOut(true);
     await fetch('/api/auth/logout', { method: 'POST' });
-    router.push('/auth');
+    router.push('/');
+  };
+
+  const handlePricing = () => {
+    router.push('/#pricing');
   };
 
   return (
@@ -88,6 +92,11 @@ export function Topbar({ title, subtitle, userName, userRole, userProfileImageUr
                   Profile
                 </button>
               )}
+              <div className={styles.divider}></div>
+              <button className={styles.dropdownItem} onClick={handlePricing}>
+                Pricing
+              </button>
+              <div className={styles.divider}></div>
               <button className={styles.dropdownItem} onClick={handleLogout} disabled={isLoggingOut}>
                 {isLoggingOut ? (<><Loader2 size={16} className={styles.logoutSpinner} /> Logging out...</>) : 'Log out'}
               </button>

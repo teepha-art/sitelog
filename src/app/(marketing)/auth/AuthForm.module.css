@@ -340,4 +340,8 @@
   .submitButton svg {
     display: none;
   }
+
+  .passwordField {
+    font-size: 16px;
+  }
 }
