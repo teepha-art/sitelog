@@ -92,16 +92,6 @@ input[type="date"] {
   background-size: 18px;
 }
 
-/* iOS Safari: date inputs have a native picker chrome that fights the custom icon.
-   Remove the extra padding and background SVG so iOS uses its own native indicator
-   and the input respects width: 100% without overflowing. */
-@supports (-webkit-touch-callout: none) {
-  input[type="date"] {
-    padding-right: 12px;
-    background-image: none;
-  }
-}
-
 input[type="date"]::-webkit-date-and-time-value {
   text-align: left;
   font-family: inherit;
