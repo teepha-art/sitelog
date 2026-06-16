@@ -17,6 +17,7 @@ export const signupSchema = z.object({
     .regex(/\d/, 'Password must contain a number')
     .regex(/[^A-Za-z0-9]/, 'Password must contain a special character'),
   role: z.nativeEnum(Role, { message: 'Please select a role' }),
+  inviteCode: z.string().optional(),
 });
 
 export const forgotPasswordSchema = z.object({

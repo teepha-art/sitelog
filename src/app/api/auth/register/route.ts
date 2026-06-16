@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       );
     }
     
-    const { fullName, email, password, role } = result.data;
+    const { fullName, email, password, role, inviteCode } = result.data;
 
     // 2. Check if email exists
     const existingUser = await prisma.user.findUnique({
@@ -32,17 +32,38 @@ export async function POST(request: Request) {
       );
     }
 
-    // 3. Hash password
+    // 3. Validate invite code for supervisors
+    let managerId: string | undefined;
+    if (role === 'site_supervisor') {
+      if (!inviteCode) {
+        return NextResponse.json(
+          { ok: false, error: { code: 'INVALID_INVITE_CODE', field: 'inviteCode', message: 'Invalid invite code — please check the code from your Project Manager.' } },
+          { status: 400 }
+        );
+      }
+      const pm = await prisma.user.findUnique({
+        where: { inviteCode },
+      });
+      if (!pm || pm.role !== 'project_manager') {
+        return NextResponse.json(
+          { ok: false, error: { code: 'INVALID_INVITE_CODE', field: 'inviteCode', message: 'Invalid invite code — please check the code from your Project Manager.' } },
+          { status: 400 }
+        );
+      }
+      managerId = pm.id;
+    }
+
+    // 4. Hash password
     const salt = await bcrypt.genSalt(12);
     const passwordHash = await bcrypt.hash(password, salt);
 
-    // 4. Generate invite code for PMs
-    let inviteCode: string | undefined;
+    // 5. Generate invite code for PMs
+    let pmInviteCode: string | undefined;
     if (role === 'project_manager') {
-      inviteCode = await generateInviteCode();
+      pmInviteCode = await generateInviteCode();
     }
 
-    // 5. Create user
+    // 6. Create user
     const user = await prisma.user.create({
       data: {
         fullName,
@@ -50,11 +71,12 @@ export async function POST(request: Request) {
         passwordHash,
         role,
         isActive: true,
-        inviteCode,
+        inviteCode: pmInviteCode,
+        managerId,
       },
     });
 
-    // 6. Create session
+    // 7. Create session
     await createSession(user.id, user.role);
 
     return NextResponse.json({ ok: true, data: { id: user.id, role: user.role } });

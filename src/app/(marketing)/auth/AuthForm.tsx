@@ -45,6 +45,12 @@ function getStrongPasswordError(password: string): string | null {
   return null;
 }
 
+function getInviteCodeError(code: string): string | null {
+  if (!code.trim()) return 'Project Manager Invite Code is required';
+  if (!/^SL-[A-Z0-9]{6}$/.test(code)) return 'Invalid invite code format';
+  return null;
+}
+
 export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
   const router = useRouter();
   const [mode, setMode] = useState<AuthMode>(defaultMode === 'signup' ? 'signup' : 'login');
@@ -54,6 +60,7 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
+  const [inviteCode, setInviteCode] = useState('');
   const [resetCode, setResetCode] = useState('');
 
   const [isLoading, setIsLoading] = useState(false);
@@ -72,6 +79,7 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
     setMode(newMode);
     clearMessages();
     setPassword('');
+    setInviteCode('');
     setResetCode('');
     setShowPassword(false);
     setTouched({});
@@ -87,6 +95,7 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
     let err: string | null = null;
     if (field === 'email') err = getEmailError(email);
     if (field === 'password') err = mode === 'login' ? getPasswordError(password) : getStrongPasswordError(password);
+    if (field === 'inviteCode') err = getInviteCodeError(inviteCode);
     setFieldErrors((prev) => ({ ...prev, [field]: err || '' }));
   };
 
@@ -155,20 +164,33 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
     } else if (mode === 'signup') {
       const emailErr = getEmailError(email);
       const passwordErr = getStrongPasswordError(password);
-      setTouched({ email: true, password: true });
-      setFieldErrors({ email: emailErr || '', password: passwordErr || '' });
-      if (emailErr || passwordErr) return;
+      const inviteCodeErr = role === 'site_supervisor' ? getInviteCodeError(inviteCode) : null;
+      setTouched({ email: true, password: true, inviteCode: role === 'site_supervisor' });
+      setFieldErrors({
+        email: emailErr || '',
+        password: passwordErr || '',
+        inviteCode: inviteCodeErr || '',
+      });
+      if (emailErr || passwordErr || inviteCodeErr) return;
 
       setIsLoading(true);
+      const body: Record<string, unknown> = { fullName, email, password, role };
+      if (role === 'site_supervisor') {
+        body.inviteCode = inviteCode;
+      }
       fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fullName, email, password, role }),
+        body: JSON.stringify(body),
       })
         .then((res) => res.json())
         .then((data) => {
           if (!data.ok) {
-            setError(data.error?.message || 'Something went wrong. Please try again later.');
+            if (data.error?.field) {
+              setFieldErrors((prev) => ({ ...prev, [data.error.field]: data.error.message }));
+            } else {
+              setError(data.error?.message || 'Something went wrong. Please try again later.');
+            }
             setIsLoading(false);
             return;
           }
@@ -458,6 +480,29 @@ export function AuthForm({ defaultMode }: { defaultMode?: AuthMode }) {
                 autoFocus
               />
               {renderSignupPasswordField()}
+              {role === 'site_supervisor' && (
+                <Input
+                  label="Project Manager Invite Code"
+                  type="text"
+                  value={inviteCode}
+                  onChange={(e) => {
+                    setInviteCode(e.target.value);
+                    if (touched.inviteCode) {
+                      const err = getInviteCodeError(e.target.value);
+                      setFieldErrors((prev) => ({ ...prev, inviteCode: err || '' }));
+                    }
+                  }}
+                  onBlur={() => handleBlur('inviteCode')}
+                  error={
+                    touched.inviteCode && fieldErrors.inviteCode
+                      ? fieldErrors.inviteCode
+                      : undefined
+                  }
+                  required
+                  disabled={isLoading}
+                  placeholder="SL-XXXXXX"
+                />
+              )}
               <div className={styles.actions}>
                 {renderSubmitButton('Create account')}
                 <button
