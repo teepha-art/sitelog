@@ -28,7 +28,7 @@ const statusMap: Record<string, { label: string; type: StatusType }> = {
   [Priority.critical]: { label: 'Critical', type: 'error' },
   
   // Requests
-  [RequestStatus.pending]: { label: 'Pending', type: 'warning' },
+  [RequestStatus.pending]: { label: 'Pending', type: 'error' },
   [RequestStatus.approved]: { label: 'Approved', type: 'success' },
   [RequestStatus.rejected]: { label: 'Rejected', type: 'error' },
   [RequestStatus.fulfilled]: { label: 'Fulfilled', type: 'success' },

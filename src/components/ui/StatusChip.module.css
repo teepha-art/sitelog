@@ -24,7 +24,7 @@
 }
 
 .error {
-  background-color: var(--color-error-container);
+  background-color: var(--color-error);
   color: var(--color-on-error);
 }
 
