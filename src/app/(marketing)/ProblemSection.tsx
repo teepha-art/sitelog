@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState, useCallback } from 'react';
+import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './ProblemSection.module.css';
 
@@ -8,17 +9,17 @@ const cards = [
   {
     title: 'Issues reported too late',
     desc: 'By the time you hear about a delay, it\u2019s already cost you money. SiteLog gets issues to you instantly.',
-    gradient: 'linear-gradient(135deg, var(--color-primary-container), var(--color-primary))',
+    image: '/landing/report_03.jpeg',
   },
   {
     title: 'Material requests lost',
     desc: 'Stop scrolling through chat history to figure out what materials your team needs and when.',
-    gradient: 'linear-gradient(135deg, var(--color-secondary-container), var(--color-secondary))',
+    image: '/landing/digital_02.png',
   },
   {
     title: 'No permanent record',
     desc: 'Keep a structured, searchable history of every report, issue, and request for compliance and disputes.',
-    gradient: 'linear-gradient(135deg, var(--color-tertiary-container), var(--color-tertiary))',
+    image: '/landing/digital_01.jpeg',
   },
 ];
 
@@ -81,7 +82,15 @@ export function ProblemSection() {
         <div className={styles.carousel}>
           {cards.map((card, index) => (
             <div key={index} className={styles.card} style={{ flex: 1 }}>
-              <div className={styles.cardImage} style={{ background: card.gradient }} />
+              <div className={styles.cardImage}>
+                <Image
+                  src={card.image}
+                  alt={card.title}
+                  fill
+                  className={styles.cardImg}
+                  sizes="(max-width: 767px) 100vw, 33vw"
+                />
+              </div>
               <div className={styles.cardText}>
                 <h3 className={styles.cardTitle}>{card.title}</h3>
                 <p className={styles.cardDesc}>{card.desc}</p>
@@ -94,7 +103,15 @@ export function ProblemSection() {
           <div ref={trackRef} className={styles.track} onScroll={handleScroll}>
             {cards.map((card, index) => (
               <div key={index} className={styles.mobileCard}>
-                <div className={styles.cardImage} style={{ background: card.gradient }} />
+                <div className={styles.cardImage}>
+                  <Image
+                    src={card.image}
+                    alt={card.title}
+                    fill
+                    className={styles.cardImg}
+                    sizes="(max-width: 767px) 90vw, 33vw"
+                  />
+                </div>
                 <div className={styles.cardText}>
                   <h3 className={styles.cardTitle}>{card.title}</h3>
                   <p className={styles.cardDesc}>{card.desc}</p>

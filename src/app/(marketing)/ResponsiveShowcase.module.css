@@ -43,63 +43,37 @@
   flex: 0 0 auto;
 }
 
-/* Desktop - center */
+/* Desktop - behind */
 .desktopWrapper {
   z-index: 1;
   position: relative;
 }
 
-/* Tablet - left, overlapping desktop, sitting lower */
-.tabletWrapper {
-  z-index: 2;
-  position: relative;
-  margin-right: -60px;
-  margin-top: 48px;
-}
-
-/* Mobile - right, overlapping desktop, sitting lower */
+/* Mobile - in front, overlapping desktop */
 .mobileWrapper {
   z-index: 2;
   position: relative;
-  margin-left: -40px;
-  margin-top: 72px;
+  margin-left: -100px;
+  margin-top: 35px;
 }
 
-/* ─── Device Frames ─── */
-.deviceFrame {
-  border: 1px solid var(--color-outline-variant);
-  border-radius: 12px;
-  overflow: hidden;
-  background-color: var(--color-surface);
-  position: relative;
-}
-
+/* ─── Device containers (no border/shadow — images include their own framing) ─── */
 .desktopFrame {
-  width: 540px;
-  box-shadow: 0 8px 32px hsla(213, 37%, 50%, 0.10), 0 1px 3px hsla(213, 37%, 50%, 0.06);
-}
-
-.tabletFrame {
-  width: 200px;
-  box-shadow: 0 6px 24px hsla(213, 37%, 50%, 0.10), 0 1px 3px hsla(213, 37%, 50%, 0.06);
+  position: relative;
+  width: 620px;
 }
 
 .mobileFrame {
-  width: 140px;
-  box-shadow: 0 6px 24px hsla(213, 37%, 50%, 0.10), 0 1px 3px hsla(213, 37%, 50%, 0.06);
+  position: relative;
+  width: 190px;
 }
 
-.screenContainer {
-  padding: 16px;
-}
-
-/* Mobile notch */
-.mobileNotch {
-  width: 50px;
-  height: 6px;
-  background-color: var(--color-outline);
-  border-radius: 0 0 6px 6px;
-  margin: 0 auto;
+.showcaseImage {
+  object-fit: contain;
+  width: 100% !important;
+  height: auto !important;
+  position: relative !important;
+  display: block;
 }
 
 /* ─── Device Labels ─── */
@@ -111,201 +85,6 @@
   color: var(--color-on-surface-variant);
   padding: 12px 0 0;
   text-align: center;
-}
-
-/* ─── Placeholder: Desktop (Dashboard) ─── */
-.placeholderDesktop {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.placeholderTopbar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.placeholderLogo {
-  width: 80px;
-  height: 24px;
-  background-color: var(--color-surface-container-high);
-  border-radius: 6px;
-}
-
-.placeholderSearch {
-  flex: 1;
-  height: 24px;
-  background-color: var(--color-surface-container);
-  border-radius: 6px;
-}
-
-.placeholderAvatar {
-  width: 28px;
-  height: 28px;
-  background-color: var(--color-surface-container-high);
-  border-radius: 50%;
-}
-
-.placeholderKpiRow {
-  display: flex;
-  gap: 10px;
-}
-
-.placeholderKpi {
-  flex: 1;
-  height: 56px;
-  background-color: var(--color-surface-container);
-  border-radius: 8px;
-}
-
-.placeholderKpi:nth-child(3) {
-  background-color: var(--color-primary-container);
-}
-
-.placeholderTable {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.placeholderTableHeader {
-  height: 24px;
-  width: 40%;
-  background-color: var(--color-surface-container-high);
-  border-radius: 4px;
-}
-
-.placeholderTableRow {
-  height: 20px;
-  background-color: var(--color-surface-container);
-  border-radius: 4px;
-}
-
-/* ─── Placeholder: Tablet (Reports) ─── */
-.placeholderTablet {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.placeholderNav {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.placeholderBack {
-  width: 20px;
-  height: 20px;
-  background-color: var(--color-surface-container-high);
-  border-radius: 4px;
-}
-
-.placeholderTitle {
-  width: 100px;
-  height: 20px;
-  background-color: var(--color-surface-container-high);
-  border-radius: 4px;
-}
-
-.placeholderList {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.placeholderListItem {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.placeholderListDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: var(--color-outline-variant);
-  flex-shrink: 0;
-}
-
-.placeholderListLineLong {
-  flex: 1;
-  height: 16px;
-  background-color: var(--color-surface-container);
-  border-radius: 4px;
-}
-
-.placeholderListLineShort {
-  width: 60%;
-  height: 16px;
-  background-color: var(--color-surface-container);
-  border-radius: 4px;
-}
-
-/* ─── Placeholder: Mobile (Issues) ─── */
-.placeholderMobile {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.placeholderMobileHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.placeholderTitleSmall {
-  width: 60px;
-  height: 18px;
-  background-color: var(--color-surface-container-high);
-  border-radius: 4px;
-}
-
-.placeholderCardRow {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.placeholderCard {
-  padding: 10px;
-  background-color: var(--color-surface-container);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.placeholderCardBar {
-  width: 80%;
-  height: 8px;
-  background-color: var(--color-outline-variant);
-  border-radius: 4px;
-}
-
-.placeholderCardBarWarning {
-  width: 80%;
-  height: 8px;
-  background-color: var(--color-warning);
-  border-radius: 4px;
-  opacity: 0.4;
-}
-
-.placeholderCardBarCritical {
-  width: 80%;
-  height: 8px;
-  background-color: var(--color-error);
-  border-radius: 4px;
-  opacity: 0.4;
-}
-
-.placeholderCardBarShort {
-  width: 55%;
-  height: 6px;
-  background-color: var(--color-outline-variant);
-  border-radius: 3px;
 }
 
 /* ─── Responsive: Mobile ─── */
@@ -326,42 +105,21 @@
     margin-bottom: 40px;
   }
 
-  .cluster {
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 0;
-  }
-
   .desktopWrapper {
     display: none;
   }
 
-  .tabletWrapper {
-    z-index: 1;
-    margin-right: -32px;
-    margin-top: 24px;
+  .cluster {
+    justify-content: center;
+    align-items: flex-start;
   }
 
   .mobileWrapper {
-    z-index: 2;
-    margin: 0;
-  }
-
-  .tabletFrame {
-    width: 160px;
+    margin-left: 0;
+    margin-top: 0;
   }
 
   .mobileFrame {
-    width: 175px;
-  }
-
-  .screenContainer {
-    padding: 12px;
-  }
-
-  .deviceLabel {
-    font-size: var(--font-label-small-i-font-size);
-    padding-top: 8px;
+    width: 200px;
   }
 }

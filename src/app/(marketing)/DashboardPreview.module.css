@@ -26,8 +26,8 @@
   }
 
   .cardInner {
-    padding: 24px;
-    gap: 24px;
+    padding: 12px 16px 12px;
+    gap: 12px;
   }
 
   .cardTitle {
@@ -35,8 +35,8 @@
   }
 
   .cardVisual {
-    padding: 4px 12px 4px 0;
-    min-height: 200px;
+    flex: none;
+    min-height: 160px;
   }
 }
 
@@ -95,7 +95,7 @@
 
 .title {
   font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(1.5rem, 4cqi, 2.5rem);
+  font-size: clamp(1.75rem, 4.5cqi, 3rem);
   font-weight: 600;
   color: var(--color-on-surface);
   line-height: 1.15;
@@ -120,9 +120,8 @@
 /* ─── Card Item ─── */
 .cardItem {
   width: 100%;
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-variant);
   border-radius: 24px;
-  border: 1px solid var(--color-outline-variant);
 }
 
 /* ─── Card Inner Layout ─── */
@@ -131,18 +130,19 @@
   flex-direction: column;
   gap: 40px;
   padding: 40px;
+  background-color: transparent;
 }
 
 .cardText {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .cardTitle {
   font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
   font-weight: 600;
   line-height: 1.25;
   color: var(--color-on-surface);
@@ -159,14 +159,19 @@
 }
 
 .cardVisual {
-  flex: 1.5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--color-surface-container);
-  border-radius: 16px;
-  padding: 6px 20px 6px 0;
+  flex: 3;
+  position: relative;
   min-height: 300px;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: var(--color-surface-variant);
+}
+
+.previewImage {
+  object-fit: cover;
+  width: 100% !important;
+  height: 100% !important;
+  position: relative !important;
 }
 
 /* ─── Responsive & Sticky Stacking ─── */
@@ -177,8 +182,9 @@
     gap: 20px;
   }
 
-  .cardVisual {
-    min-height: 320px;
+  .cardText {
+    justify-content: flex-end;
+    padding-bottom: 16px;
   }
 
   .headerBlock {
@@ -220,131 +226,4 @@
   }
 }
 
-/* ─── Placeholder: Dashboard Panel ─── */
-.placeholderPanel {
-  width: 100%;
-  height: 100%;
-  min-height: 200px;
-  background-color: var(--color-surface-container);
-  border-radius: 12px;
-  border: 1px solid var(--color-outline-variant);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
 
-.placeholderTopbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--color-outline-variant);
-}
-
-.placeholderTopbarTitle {
-  width: 100px;
-  height: 10px;
-  border-radius: 4px;
-  background-color: var(--color-outline-variant);
-}
-
-.placeholderTopbarActions {
-  display: flex;
-  gap: 10px;
-}
-
-.placeholderDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: var(--color-outline-variant);
-}
-
-/* KPI Row */
-.placeholderKpiRow {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-
-.placeholderKpi {
-  background-color: var(--color-surface);
-  border-radius: 12px;
-  padding: 12px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  border: 1px solid var(--color-outline-variant);
-}
-
-.placeholderKpiActive {
-  border-color: var(--color-primary);
-}
-
-.placeholderKpiLabel {
-  width: 60%;
-  height: 8px;
-  border-radius: 4px;
-  background-color: var(--color-outline-variant);
-}
-
-.placeholderKpiValue {
-  width: 36%;
-  height: 18px;
-  border-radius: 6px;
-  background-color: var(--color-outline);
-}
-
-.placeholderKpiActive .placeholderKpiValue {
-  background-color: var(--color-primary);
-}
-
-/* Activity list */
-.placeholderList {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.placeholderListItem {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  background-color: var(--color-surface);
-  border-radius: 12px;
-}
-
-.placeholderListDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: var(--color-outline-variant);
-  flex-shrink: 0;
-}
-
-.placeholderListText {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.placeholderLine {
-  width: 100%;
-  height: 8px;
-  border-radius: 4px;
-  background-color: var(--color-surface-variant);
-}
-
-.placeholderLineShort {
-  width: 50%;
-}
-
-@media (max-width: 400px) {
-  .placeholderKpiRow {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}

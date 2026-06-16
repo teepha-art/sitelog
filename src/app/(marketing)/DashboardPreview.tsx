@@ -1,56 +1,6 @@
 import React from 'react';
+import Image from 'next/image';
 import styles from './DashboardPreview.module.css';
-
-function DashboardPlaceholder() {
-  return (
-    <div className={styles.placeholderPanel}>
-      <div className={styles.placeholderTopbar}>
-        <div className={styles.placeholderTopbarTitle} />
-        <div className={styles.placeholderTopbarActions}>
-          <div className={styles.placeholderDot} />
-          <div className={styles.placeholderDot} />
-        </div>
-      </div>
-      <div className={styles.placeholderKpiRow}>
-        <div className={styles.placeholderKpi}>
-          <div className={styles.placeholderKpiLabel} />
-          <div className={styles.placeholderKpiValue} />
-        </div>
-        <div className={`${styles.placeholderKpi} ${styles.placeholderKpiActive}`}>
-          <div className={styles.placeholderKpiLabel} />
-          <div className={styles.placeholderKpiValue} />
-        </div>
-        <div className={styles.placeholderKpi}>
-          <div className={styles.placeholderKpiLabel} />
-          <div className={styles.placeholderKpiValue} />
-        </div>
-      </div>
-      <div className={styles.placeholderList}>
-        <div className={styles.placeholderListItem}>
-          <div className={styles.placeholderListDot} />
-          <div className={styles.placeholderListText}>
-            <div className={styles.placeholderLine} />
-            <div className={`${styles.placeholderLine} ${styles.placeholderLineShort}`} />
-          </div>
-        </div>
-        <div className={styles.placeholderListItem}>
-          <div className={styles.placeholderListDot} />
-          <div className={styles.placeholderListText}>
-            <div className={styles.placeholderLine} />
-            <div className={`${styles.placeholderLine} ${styles.placeholderLineShort}`} />
-          </div>
-        </div>
-        <div className={styles.placeholderListItem}>
-          <div className={styles.placeholderListDot} />
-          <div className={styles.placeholderListText}>
-            <div className={styles.placeholderLine} />
-            <div className={`${styles.placeholderLine} ${styles.placeholderLineShort}`} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export function DashboardPreview() {
   return (
@@ -72,10 +22,16 @@ export function DashboardPreview() {
             <div className={styles.cardInner}>
               <div className={styles.cardText}>
                 <h3 className={styles.cardTitle}>Project Manager</h3>
-                <p className={styles.cardDesc}>Monitor all your projects from a single dashboard. See KPIs, track issues, and review reports — all in one place.</p>
+                <p className={styles.cardDesc}>Monitor every project from one dashboard — KPIs, issues, and reports in one place.</p>
               </div>
               <div className={styles.cardVisual}>
-                <DashboardPlaceholder />
+                <Image
+                  src="/landing/project_dashboard.png"
+                  alt="Project Manager Dashboard Preview"
+                  fill
+                  className={styles.previewImage}
+                  sizes="(max-width: 767px) 100vw, 50vw"
+                />
               </div>
             </div>
           </div>
@@ -85,10 +41,16 @@ export function DashboardPreview() {
             <div className={styles.cardInner}>
               <div className={styles.cardText}>
                 <h3 className={styles.cardTitle}>Site Supervisor</h3>
-                <p className={styles.cardDesc}>Submit daily reports, log issues, and request materials from your phone. Takes under three minutes on site.</p>
+                <p className={styles.cardDesc}>Submit reports, log issues, and request materials — right from your phone, in minutes.</p>
               </div>
               <div className={styles.cardVisual}>
-                <DashboardPlaceholder />
+                <Image
+                  src="/landing/site_dashboard.png"
+                  alt="Site Supervisor Dashboard Preview"
+                  fill
+                  className={styles.previewImage}
+                  sizes="(max-width: 767px) 100vw, 50vw"
+                />
               </div>
             </div>
           </div>
