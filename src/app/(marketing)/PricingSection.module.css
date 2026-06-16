@@ -186,9 +186,28 @@
 /* ─── Mobile ─── */
 @media (max-width: 767px) {
   .pricing {
-    padding: 48px 0;
+    padding: 48px 16px;
   }
 
+  .title {
+    font-size: var(--font-title-large-font-size);
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    padding: 0;
+  }
+}
+
+/* ─── Large desktop ─── */
+@media (min-width: 1440px) {
+  .grid {
+    max-width: 1400px;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 767px) {
   .title {
     line-height: 1.15;
   }

@@ -98,6 +98,41 @@
   }
 
   .heading {
+    font-size: var(--font-title-large-font-size);
+  }
+
+  .deviceRow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .desktopFrame,
+  .deviceLabel {
+    display: none;
+  }
+
+  .mobileFrame {
+    position: static;
+    width: 200px;
+  }
+}
+
+/* ─── Large desktop ─── */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1600px;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 767px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .heading {
     line-height: 1.15;
   }
 

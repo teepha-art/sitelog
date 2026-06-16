@@ -172,7 +172,7 @@
 
 .heroTitle {
   font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(2rem, 5cqi, 4rem);
+  font-size: clamp(2rem, 5cqi, 6rem);
   line-height: 1.1;
   font-weight: 700;
   max-width: 900px;
@@ -398,5 +398,24 @@
 
   .footerLinks {
     gap: 40px;
+  }
+}
+
+/* ─── Large desktop ─── */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1600px;
+  }
+
+  .headerOuter {
+    max-width: 1600px;
+  }
+
+  .footerInner {
+    max-width: 1600px;
+  }
+
+  .footerDivider {
+    max-width: 1600px;
   }
 }

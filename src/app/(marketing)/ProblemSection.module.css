@@ -105,6 +105,20 @@
   .container {
     padding: 0 16px;
   }
+}
+
+/* ─── Large desktop ─── */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1600px;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 767px) {
+  .container {
+    padding: 0 16px;
+  }
 
   .headerRow {
     flex-direction: row;
