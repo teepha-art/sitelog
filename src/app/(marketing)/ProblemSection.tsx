@@ -7,19 +7,19 @@ import styles from './ProblemSection.module.css';
 
 const cards = [
   {
-    title: 'Issues reported too late',
-    desc: 'By the time you hear about a delay, it\u2019s already cost you money. SiteLog gets issues to you instantly.',
-    image: '/landing/report_03.jpeg',
-  },
-  {
-    title: 'Material requests lost',
-    desc: 'Stop scrolling through chat history to figure out what materials your team needs and when.',
+    title: 'Sign up & choose your role',
+    desc: 'Create your account and choose your role \u2014 your dashboard adapts to how you work.',
     image: '/landing/digital_02.png',
   },
   {
-    title: 'No permanent record',
-    desc: 'Keep a structured, searchable history of every report, issue, and request for compliance and disputes.',
+    title: 'Create a project',
+    desc: 'Set up your project and assign your team in seconds.',
     image: '/landing/digital_01.jpeg',
+  },
+  {
+    title: 'Track issues',
+    desc: 'Log issues, reports, and material requests \u2014 all tracked in one place.',
+    image: '/landing/report_03.jpeg',
   },
 ];
 
@@ -67,7 +67,7 @@ export function ProblemSection() {
       <div className={styles.container}>
         <div className={styles.headerRow}>
           <h2 className={styles.sectionTitle}>
-            Built to stop <span className={styles.sectionTitleHighlight}>the chaos</span>
+            How it works
           </h2>
           <div className={styles.arrows}>
             <button onClick={goPrev} disabled={current === 0} className={styles.arrow} aria-label="Previous card">

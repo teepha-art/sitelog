@@ -36,10 +36,23 @@ export function EditProjectForm({ projectId, initialData, onCancelPath, onCancel
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  function validateDates(): boolean {
+    if (startDate && expectedEndDate && new Date(expectedEndDate) <= new Date(startDate)) {
+      setError('Expected end date must be after the start date.');
+      return false;
+    }
+    return true;
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
+
+    if (!validateDates()) {
+      setIsLoading(false);
+      return;
+    }
 
     const result = await updateProject(projectId, {
       projectName,

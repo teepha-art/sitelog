@@ -32,7 +32,8 @@ export async function createProject(formData: FormData): Promise<ActionResult> {
 
   const validationResult = projectSchema.safeParse(rawData);
   if (!validationResult.success) {
-    return { ok: false, error: { code: 'BAD_REQUEST', message: 'Please complete all required fields before submitting.' } };
+    const firstIssue = validationResult.error.issues[0];
+    return { ok: false, error: { code: 'BAD_REQUEST', message: firstIssue?.message ?? 'Please complete all required fields before submitting.' } };
   }
 
   const data = validationResult.data;
@@ -85,7 +86,8 @@ export async function updateProject(projectId: string, projectData: {
 
   const validationResult = updateProjectSchema.safeParse(projectData);
   if (!validationResult.success) {
-    return { ok: false, error: { code: 'BAD_REQUEST', message: 'Please complete all required fields correctly.' } };
+    const firstIssue = validationResult.error.issues[0];
+    return { ok: false, error: { code: 'BAD_REQUEST', message: firstIssue?.message ?? 'Please complete all required fields correctly.' } };
   }
 
   const data = validationResult.data;

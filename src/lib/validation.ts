@@ -41,7 +41,10 @@ export const projectSchema = z.object({
   location: z.string().min(1, 'Location is required'),
   startDate: z.string().refine((val) => !isNaN(Date.parse(val)), 'Invalid start date'),
   expectedEndDate: z.string().refine((val) => !isNaN(Date.parse(val)), 'Invalid end date'),
-});
+}).refine(
+  (data) => new Date(data.expectedEndDate) > new Date(data.startDate),
+  { message: 'Expected end date must be after the start date.', path: ['expectedEndDate'] },
+);
 
 export const updateProjectSchema = z.object({
   projectName: z.string().min(1, 'Project name is required'),
@@ -50,7 +53,10 @@ export const updateProjectSchema = z.object({
   status: z.enum(PROJECT_STATUSES),
   startDate: z.string().refine((val) => !isNaN(Date.parse(val)), 'Invalid start date'),
   expectedEndDate: z.string().refine((val) => !isNaN(Date.parse(val)), 'Invalid end date'),
-});
+}).refine(
+  (data) => new Date(data.expectedEndDate) > new Date(data.startDate),
+  { message: 'Expected end date must be after the start date.', path: ['expectedEndDate'] },
+);
 
 export const reportSchema = z.object({
   projectId: z.string().uuid('Project is required'),

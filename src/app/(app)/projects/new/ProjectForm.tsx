@@ -13,9 +13,24 @@ export function ProjectForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  function validateDates(formData: FormData): boolean {
+    const start = formData.get('startDate') as string;
+    const end = formData.get('expectedEndDate') as string;
+    if (start && end && new Date(end) <= new Date(start)) {
+      setError('Expected end date must be after the start date.');
+      return false;
+    }
+    return true;
+  }
+
   async function actionHandler(formData: FormData) {
     setIsLoading(true);
     setError(null);
+
+    if (!validateDates(formData)) {
+      setIsLoading(false);
+      return;
+    }
 
     const result = await createProject(formData);
 
