@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { signupSchema } from '@/lib/validation';
 import { createSession } from '@/lib/auth';
+import { generateInviteCode } from '@/lib/inviteCode';
 import bcrypt from 'bcryptjs';
 
 export async function POST(request: Request) {
@@ -35,7 +36,13 @@ export async function POST(request: Request) {
     const salt = await bcrypt.genSalt(12);
     const passwordHash = await bcrypt.hash(password, salt);
 
-    // 4. Create user
+    // 4. Generate invite code for PMs
+    let inviteCode: string | undefined;
+    if (role === 'project_manager') {
+      inviteCode = await generateInviteCode();
+    }
+
+    // 5. Create user
     const user = await prisma.user.create({
       data: {
         fullName,
@@ -43,10 +50,11 @@ export async function POST(request: Request) {
         passwordHash,
         role,
         isActive: true,
+        inviteCode,
       },
     });
 
-    // 5. Create session
+    // 6. Create session
     await createSession(user.id, user.role);
 
     return NextResponse.json({ ok: true, data: { id: user.id, role: user.role } });

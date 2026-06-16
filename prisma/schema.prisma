@@ -70,6 +70,12 @@ model User {
   isActive        Boolean   @default(true) @map("is_active")
   lastLoginAt     DateTime? @map("last_login_at")
 
+  // Invite-code system — unique code for PMs, links supervisors to their PM
+  inviteCode         String?   @unique @map("invite_code")
+  managerId          String?   @map("manager_id")
+  manager            User?     @relation("ManagerSupervisor", fields: [managerId], references: [id])
+  managedSupervisors User[]    @relation("ManagerSupervisor")
+
   // Password-reset fields — 6-digit code with 15-minute expiry
   resetCode          String?   @map("reset_code")
   resetCodeExpiresAt DateTime? @map("reset_code_expires_at")

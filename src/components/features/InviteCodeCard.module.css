@@ -1,0 +1,60 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-family: var(--font-title-medium-font-family);
+  font-size: var(--font-title-medium-font-size);
+  font-weight: 700;
+  color: var(--color-on-surface);
+}
+
+.description {
+  font-family: var(--font-body-medium-font-family);
+  font-size: var(--font-body-medium-font-size);
+  color: var(--color-on-surface-variant);
+  margin: 0;
+}
+
+.codeRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.code {
+  font-family: 'Menlo', 'Consolas', monospace;
+  font-size: var(--font-title-large-font-size);
+  font-weight: 700;
+  color: var(--color-primary);
+  background: var(--color-primary-container);
+  padding: 8px 16px;
+  border-radius: 6px;
+  letter-spacing: 2px;
+  user-select: all;
+}
+
+.copyButton {
+  font-family: var(--font-label-large-i-font-family);
+  font-size: var(--font-label-large-i-font-size);
+  font-weight: 500;
+  color: var(--color-on-primary);
+  background: var(--color-primary);
+  border: none;
+  border-radius: 6px;
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  min-height: var(--min-tap-target, 44px);
+}
+
+.copyButton:hover {
+  background: var(--color-palette-primary-50);
+}
+
+.copyButton:active {
+  background: var(--color-palette-primary-60);
+}
