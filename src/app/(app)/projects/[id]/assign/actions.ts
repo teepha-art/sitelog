@@ -15,6 +15,7 @@ export async function searchSupervisors(query: string) {
   const users = await prisma.user.findMany({
     where: {
       role: Role.site_supervisor,
+      managerId: session.userId,
       isActive: true,
       OR: [
         { fullName: { contains: query, mode: 'insensitive' } },

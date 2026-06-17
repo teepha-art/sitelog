@@ -47,6 +47,7 @@ export default async function IssueDetailPage({ params }: { params: Promise<{ id
     supervisors = await prisma.user.findMany({
       where: {
         role: Role.site_supervisor,
+        managerId: session.userId,
         memberships: { some: { projectId: issue.projectId } },
       },
       select: { id: true, fullName: true },

@@ -59,9 +59,7 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
     const members = await prisma.user.findMany({
       where: {
         role: Role.site_supervisor,
-        memberships: {
-          some: { project: { assignedProjectManager: session.userId } }
-        }
+        managerId: session.userId,
       },
       select: { id: true, fullName: true }
     });

@@ -32,15 +32,11 @@ export default async function TeamPage() {
     pm.inviteCode = code;
   }
 
-  // Find all supervisors assigned to this PM's projects
+  // Find all supervisors who signed up using this PM's invite code
   const teamMembers = await prisma.user.findMany({
     where: {
       role: Role.site_supervisor,
-      memberships: {
-        some: {
-          project: { assignedProjectManager: session.userId }
-        }
-      }
+      managerId: session.userId,
     },
     include: {
       memberships: {
@@ -90,21 +86,24 @@ export default async function TeamPage() {
                 </div>
               </div>
               
-              <div>
-                <div style={{ fontSize: 'var(--font-label-small-font-size)', textTransform: 'uppercase', color: 'var(--color-on-surface-variant)', marginBottom: '8px' }}>
-                  Assigned Projects
-                </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                  {member.memberships.map(pm => (
-                    <span key={pm.projectId} style={{ 
-                      padding: '4px 8px', backgroundColor: 'var(--color-surface-variant)', 
-                      borderRadius: '4px', fontSize: 'var(--font-body-small-font-size)' 
-                    }}>
-                      {pm.project.projectName}
-                    </span>
-                  ))}
-                </div>
+              <div style={{ marginBottom: '12px' }}>
+                <span style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  padding: '4px 8px',
+                  borderRadius: '4px',
+                  fontFamily: 'var(--font-label-small-font-family)',
+                  fontWeight: 'var(--font-label-small-font-weight)',
+                  fontSize: 'var(--font-label-small-font-size)',
+                  lineHeight: 'var(--font-label-small-line-height)',
+                  backgroundColor: member.memberships.length > 0 ? 'var(--color-success-container)' : 'var(--color-warning-container)',
+                  color: member.memberships.length > 0 ? 'var(--color-on-success-container)' : 'var(--color-on-warning-container)',
+                }}>
+                  {member.memberships.length > 0 ? 'Assigned' : 'Not assigned'}
+                </span>
               </div>
+
+
             </Card>
           ))}
         </div>
