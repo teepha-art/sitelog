@@ -187,8 +187,7 @@
   }
 
   .cardText {
-    justify-content: flex-end;
-    padding-bottom: 8px;
+    justify-content: center;
   }
 
   .headerBlock {
