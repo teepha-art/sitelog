@@ -9,6 +9,7 @@ import { EmptyState } from '@/components/states/EmptyState';
 import { Avatar } from '@/components/ui/Avatar';
 import { InviteCodeCard } from '@/components/features/InviteCodeCard';
 import { generateInviteCode } from '@/lib/inviteCode';
+import { RemoveFromTeamButton } from './RemoveFromTeamButton';
 
 export default async function TeamPage() {
   const session = await getSession();
@@ -103,7 +104,7 @@ export default async function TeamPage() {
                 </span>
               </div>
 
-
+              <RemoveFromTeamButton supervisorId={member.id} supervisorName={member.fullName} />
             </Card>
           ))}
         </div>

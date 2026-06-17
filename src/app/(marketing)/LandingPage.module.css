@@ -365,10 +365,7 @@
 
   .heroTitle {
     margin-bottom: 32px;
-    font-size: clamp(1.75rem, 4cqi, 2rem);
-  }
-
-  .heroFirstLine ~ span {
+    font-size: clamp(2rem, 5cqi, 2.25rem);
     white-space: nowrap;
   }
 
