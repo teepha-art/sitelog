@@ -47,7 +47,7 @@ export default function LandingPage() {
         <div className={styles.container}>
           <div className={styles.heroInner}>
             <h1 className={styles.heroTitle}>
-              <span className={`${styles.heroTitleDark} ${styles.heroFirstLine}`}>Every site at a glance.</span><br />
+              <span className={`${styles.heroTitleDark} ${styles.heroFirstLine}`}>Every site at a glance.</span>
               <span className={styles.heroTitleDark}>No phone </span><span className={styles.heroTitlePrimary}>calls required.</span>
             </h1>
             <Link href="/auth?mode=signup" tabIndex={-1} className={styles.heroCta}>
