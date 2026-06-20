@@ -2,6 +2,8 @@
 
 SiteLog is a mobile-first construction site reporting and issue-tracking platform for small-to-mid-size construction firms. Project Managers get real-time visibility across all their sites from a dashboard, while Site Supervisors can submit reports, log issues, and request materials from their phones in the field.
 
+🔗 **Live:** [sitelog-sage.vercel.app](https://sitelog-sage.vercel.app)
+
 ## Tech Stack
 
 - **Framework:** Next.js (App Router)
@@ -15,11 +17,12 @@ SiteLog is a mobile-first construction site reporting and issue-tracking platfor
 
 ## Roles
 
-- **Project Manager** — creates projects, assigns supervisors, monitors a dashboard, and actions issues and material requests.
+- **Project Manager** — creates projects, generates an invite code to add supervisors to their team, assigns supervisors, monitors a dashboard, and actions issues and material requests.
 - **Site Supervisor** — submits daily reports, logs issues, and requests materials from a mobile-friendly interface.
 
 ## Features
 
+- **Team Management & Multi-Tenancy** — each Project Manager has a unique invite code. Site Supervisors join a specific PM's team by entering that code at signup, so every company's data stays isolated — a PM only sees and assigns their own supervisors. PMs can remove supervisors from their team, and supervisors can join, re-join, or switch teams via a code in their profile (with access control preventing removed supervisors from rejoining the same team).
 - **Daily Reporting** — supervisors submit structured daily reports with progress, delays, weather, notes, and an optional photo.
 - **Issue Tracking** — create, assign, and move issues through Open → In Progress → Resolved.
 - **Material Requests** — supervisors request materials; PMs approve, reject, or mark fulfilled.
@@ -28,6 +31,10 @@ SiteLog is a mobile-first construction site reporting and issue-tracking platfor
 - **Recent Activity Feed** — aggregated updates on the dashboard and project pages.
 - **Password Reset** — code-based reset via email (6-digit code, 15-minute expiry).
 - **Mobile-First** — designed for supervisors working on phones in the field.
+
+## Notable Decision
+
+Mid-build, I identified that the app had no concept of separate organizations — every Project Manager could see every supervisor in the system, including people from other companies. I designed an invite-code multi-tenancy system so each PM manages only their own team and each company's data stays isolated. This turned a single-org prototype into a real, multi-company B2B product.
 
 ## Local Setup
 
@@ -102,7 +109,7 @@ SiteLog is built to deploy on [Vercel](https://vercel.com/). Note that a few thi
 2. Set up a hosted PostgreSQL database (e.g. Vercel Postgres, Neon, or Supabase) and set `DATABASE_URL` in Vercel.
 3. Add a Vercel Blob store and set `BLOB_READ_WRITE_TOKEN` (required for image uploads in production — the local folder fallback does not work on Vercel).
 4. Configure the remaining environment variables in the Vercel dashboard (`SESSION_SECRET`, `NEXT_PUBLIC_APP_URL`, and the SMTP settings).
-5. Run database migrations against the production database with `npx prisma migrate deploy` (run manually, or add it to your build step).
+5. Database migrations run automatically during the Vercel build — the `build` script runs `prisma migrate deploy` before building, so pending migrations are applied to the production database on each deploy.
 6. Deploy.
 
 ## Project Structure
@@ -114,9 +121,13 @@ src/
   lib/            # auth, permissions, validation, email, prisma, storage, activity
   types/          # shared TypeScript types
 prisma/
-  schema.prisma   # database schema (8 models)
+  schema.prisma   # database schema
 tokens/
   design-tokens.css   # design-token CSS variables
 public/
   logo/           # logo SVGs
 ```
+
+---
+
+*Designed and built end-to-end by Teepha (Lateefat) — Full-Stack Product Designer.*
