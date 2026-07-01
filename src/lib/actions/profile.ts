@@ -36,6 +36,64 @@ export async function updateProfile(fullName: string, profileImageUrl?: string):
   }
 }
 
+export async function joinTeam(inviteCode: string): Promise<ActionResult> {
+  const session = await getSession();
+  if (!session) {
+    return { ok: false, error: { code: 'UNAUTHORIZED', message: 'You must be logged in.' } };
+  }
+
+  if (!inviteCode || !/^SL-[A-Z0-9]{6}$/.test(inviteCode.trim())) {
+    return { ok: false, error: { code: 'INVALID_INVITE_CODE', message: 'Invalid invite code — please check with your Project Manager' } };
+  }
+
+  try {
+    const pm = await prisma.user.findUnique({
+      where: { inviteCode: inviteCode.trim() },
+      select: { id: true, fullName: true },
+    });
+
+    if (!pm) {
+      return { ok: false, error: { code: 'INVALID_INVITE_CODE', message: 'Invalid invite code — please check with your Project Manager' } };
+    }
+
+    const supervisor = await prisma.user.findUnique({
+      where: { id: session.userId },
+      select: { fullName: true, removedByManagerIds: true },
+    });
+
+    if (!supervisor) {
+      return { ok: false, error: { code: 'NOT_FOUND', message: 'User not found.' } };
+    }
+
+    if (supervisor.removedByManagerIds.includes(pm.id)) {
+      return { ok: false, error: { code: 'BLOCKED', message: 'You\'re not able to join this team. Please contact the Project Manager.' } };
+    }
+
+    await prisma.user.update({
+      where: { id: session.userId },
+      data: { managerId: pm.id },
+    });
+
+    // Notify PM that a supervisor joined their team
+    await prisma.notification.create({
+      data: {
+        recipientId: pm.id,
+        type: 'supervisor_joined',
+        message: `${supervisor.fullName} has joined your team.`,
+        relatedEntityId: session.userId,
+        relatedEntityType: 'project',
+      }
+    });
+
+    revalidatePath('/profile');
+
+    return { ok: true, data: { managerName: pm.fullName } };
+  } catch (error) {
+    console.error('Join team error:', error);
+    return { ok: false, error: { code: 'INTERNAL_ERROR', message: 'Something went wrong. Please try again later.' } };
+  }
+}
+
 export async function changePassword(currentPassword: string, newPassword: string): Promise<ActionResult> {
   const session = await getSession();
   if (!session) {

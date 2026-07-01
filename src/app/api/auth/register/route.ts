@@ -76,7 +76,20 @@ export async function POST(request: Request) {
       },
     });
 
-    // 7. Create session
+    // 7. Notify PM if supervisor signed up with invite code
+    if (managerId) {
+      await prisma.notification.create({
+        data: {
+          recipientId: managerId,
+          type: 'supervisor_joined',
+          message: `${fullName} has joined your team.`,
+          relatedEntityId: user.id,
+          relatedEntityType: 'project',
+        }
+      });
+    }
+
+    // 8. Create session
     await createSession(user.id, user.role);
 
     return NextResponse.json({ ok: true, data: { id: user.id, role: user.role } });

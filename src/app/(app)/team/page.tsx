@@ -10,6 +10,7 @@ import { Avatar } from '@/components/ui/Avatar';
 import { InviteCodeCard } from '@/components/features/InviteCodeCard';
 import { generateInviteCode } from '@/lib/inviteCode';
 import { RemoveFromTeamButton } from './RemoveFromTeamButton';
+import { AllowRejoinButton } from './AllowRejoinButton';
 
 export default async function TeamPage() {
   const session = await getSession();
@@ -47,6 +48,20 @@ export default async function TeamPage() {
         include: { project: { select: { projectName: true } } }
       }
     }
+  });
+
+  // Find supervisors this PM has previously removed
+  const removedSupervisors = await prisma.user.findMany({
+    where: {
+      role: Role.site_supervisor,
+      removedByManagerIds: { has: session.userId },
+    },
+    select: {
+      id: true,
+      fullName: true,
+      email: true,
+      profileImageUrl: true,
+    },
   });
 
   return (
@@ -108,6 +123,39 @@ export default async function TeamPage() {
             </Card>
           ))}
         </div>
+      )}
+
+      {removedSupervisors.length > 0 && (
+        <>
+          <h3 style={{
+            fontFamily: 'var(--font-title-large-font-family)',
+            fontSize: 'var(--font-title-large-font-size)',
+            fontWeight: '700',
+            color: 'var(--color-on-surface)',
+            margin: '32px 0 16px 0',
+          }}>
+            Removed Supervisors
+          </h3>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '24px' }}>
+            {removedSupervisors.map((supervisor) => (
+              <Card key={supervisor.id} padding="md">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+                  <Avatar name={supervisor.fullName} imageUrl={supervisor.profileImageUrl} size={40} />
+                  <div>
+                    <h3 style={{ 
+                      fontFamily: 'var(--font-title-medium-font-family)',
+                      fontSize: 'var(--font-title-medium-font-size)',
+                      fontWeight: '700',
+                      margin: '0 0 4px 0' 
+                    }}>{supervisor.fullName}</h3>
+                    <div style={{ color: 'var(--color-on-surface-variant)', fontSize: 'var(--font-body-small-font-size)' }}>{supervisor.email}</div>
+                  </div>
+                </div>
+                <AllowRejoinButton supervisorId={supervisor.id} supervisorName={supervisor.fullName} />
+              </Card>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

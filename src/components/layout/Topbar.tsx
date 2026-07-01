@@ -48,7 +48,7 @@ export function Topbar({ title, subtitle, userName, userRole, userProfileImageUr
   const handleLogout = async () => {
     setIsLoggingOut(true);
     await fetch('/api/auth/logout', { method: 'POST' });
-    router.push('/');
+    window.location.href = '/';
   };
 
   const handlePricing = () => {

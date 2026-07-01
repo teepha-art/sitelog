@@ -6,6 +6,39 @@ import { Role } from '@prisma/client';
 import { ActionResult } from '@/types';
 import { revalidatePath } from 'next/cache';
 
+export async function allowRejoin(supervisorId: string): Promise<ActionResult> {
+  const session = await getSession();
+  if (!session || session.role !== Role.project_manager) {
+    return { ok: false, error: { code: 'FORBIDDEN', message: 'Unauthorised' } };
+  }
+
+  const supervisor = await prisma.user.findUnique({
+    where: { id: supervisorId },
+    select: { removedByManagerIds: true },
+  });
+
+  if (!supervisor || !supervisor.removedByManagerIds.includes(session.userId)) {
+    return { ok: false, error: { code: 'FORBIDDEN', message: 'This supervisor was not removed by you.' } };
+  }
+
+  try {
+    await prisma.user.update({
+      where: { id: supervisorId },
+      data: {
+        removedByManagerIds: {
+          set: supervisor.removedByManagerIds.filter((id) => id !== session.userId),
+        },
+      },
+    });
+
+    revalidatePath('/team');
+    return { ok: true };
+  } catch (error) {
+    console.error('Allow rejoin error:', error);
+    return { ok: false, error: { code: 'INTERNAL_ERROR', message: 'Something went wrong. Please try again later.' } };
+  }
+}
+
 export async function removeFromTeam(userId: string): Promise<ActionResult> {
   const session = await getSession();
   if (!session || session.role !== Role.project_manager) {
@@ -14,7 +47,7 @@ export async function removeFromTeam(userId: string): Promise<ActionResult> {
 
   const supervisor = await prisma.user.findUnique({
     where: { id: userId },
-    select: { managerId: true, role: true },
+    select: { managerId: true, role: true, removedByManagerIds: true },
   });
 
   if (!supervisor || supervisor.role !== Role.site_supervisor || supervisor.managerId !== session.userId) {
@@ -32,7 +65,12 @@ export async function removeFromTeam(userId: string): Promise<ActionResult> {
 
       await tx.user.update({
         where: { id: userId },
-        data: { managerId: null },
+        data: {
+          managerId: null,
+          removedByManagerIds: supervisor.removedByManagerIds.includes(session.userId)
+            ? supervisor.removedByManagerIds
+            : { push: session.userId },
+        },
       });
     });
 

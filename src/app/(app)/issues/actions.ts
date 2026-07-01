@@ -164,12 +164,12 @@ export async function assignIssue(issueId: string, assigneeId: string): Promise<
       }
     });
 
-    // Notify the issue creator
+    // Notify the assignee
     await prisma.notification.create({
       data: {
-        recipientId: issue.createdBy,
+        recipientId: assigneeId,
         type: 'issue_assigned',
-        message: `Your issue '${issue.title}' was assigned.`,
+        message: `You've been assigned an issue: '${issue.title}'`,
         relatedEntityId: issueId,
         relatedEntityType: 'issue',
       }

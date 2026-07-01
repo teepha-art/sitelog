@@ -56,6 +56,7 @@ enum NotificationType {
   material_request_fulfilled
   issue_assigned
   issue_resolved
+  supervisor_joined
 }
 
 // ─── Models ──────────────────────────────────────────────
@@ -75,6 +76,9 @@ model User {
   managerId          String?   @map("manager_id")
   manager            User?     @relation("ManagerSupervisor", fields: [managerId], references: [id])
   managedSupervisors User[]    @relation("ManagerSupervisor")
+
+  // Track which PMs have removed this supervisor (prevents re-join via invite code)
+  removedByManagerIds String[] @default([]) @map("removed_by_manager_ids")
 
   // Password-reset fields — 6-digit code with 15-minute expiry
   resetCode          String?   @map("reset_code")
